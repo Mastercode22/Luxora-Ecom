@@ -52,11 +52,13 @@ export default function Hero() {
 
       const W  = stage.offsetWidth;
       const H  = stage.offsetHeight;
-      // Ellipse parameters — center slightly right + slightly below mid
-      const cx = W * 0.54;
-      const cy = H * 0.52;
-      const rx = W * 0.40;  // horizontal radius ≈ 40% of width
-      const ry = H * 0.32;  // vertical radius   ≈ 32% of height
+      const isMobile = W < 768;
+
+      // Responsive ellipse parameters — center shifted lower on mobile
+      const cx = isMobile ? W * 0.50 : W * 0.54;
+      const cy = isMobile ? H * 0.68 : H * 0.52;
+      const rx = isMobile ? W * 0.44 : W * 0.40;
+      const ry = isMobile ? H * 0.16 : H * 0.32;
 
       const els = stage.querySelectorAll(".bloom");
       els.forEach((el, i) => {
@@ -68,10 +70,16 @@ export default function Hero() {
         const depth = Math.sin(a);
         const t     = (depth + 1) / 2;           // normalise 0 → 1
 
-        const baseSize = (56 + 92 * t) * (BLOOMS[i].scale || 1);
-        const blur     = (1 - t) * 7;
+        // Increased sizes for mobile (90px - 200px) and kept original for desktop
+        const baseSize = (isMobile ? (90 + 110 * t) : (96 + 144 * t)) * (BLOOMS[i].scale || 1);
+        const blur     = (1 - t) * (isMobile ? 4 : 7);
         const bright   = 0.35 + 0.65 * t;
-        const opac     = 0.10 + 0.50 * t;
+        const opac     = isMobile ? (0.08 + 0.34 * t) : (0.10 + 0.50 * t);
+
+        // Custom non-linear scale: zooms up in the mid-ground, then scales down/zooms out as it reaches the front (t -> 1)
+        const scaleVal = isMobile
+          ? (0.55 + 0.45 * Math.sin(t * Math.PI * 0.82))
+          : (0.4 + 0.85 * Math.sin(t * Math.PI * 0.82));
 
         // z-index trick: front flowers (depth > 0.25) sit ABOVE the text
         // back flowers sit BELOW the text → creates the loop-around effect
@@ -98,6 +106,7 @@ export default function Hero() {
           zIndex:      z,
           boxShadow:   shadow,
           border,
+          transform:   `translate(-50%, -50%) scale(${scaleVal.toFixed(3)})`,
         });
       });
 
@@ -127,7 +136,7 @@ export default function Hero() {
         minHeight: "clamp(520px, 72vh, 660px)",
         background:
           "linear-gradient(135deg, #0d0221 0%, #1a0533 28%, #120340 55%, #0a0118 100%)",
-        paddingTop: "clamp(48px, 6vw, 60px)",
+        paddingTop: "clamp(72px, 8vw, 86px)",
       }}
     >
       {/* ── Plexus / network background ─────────────────────────────────── */}
@@ -136,7 +145,7 @@ export default function Hero() {
         className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden"
       >
         <div
-          className="absolute w-[200%] h-[200%] animate-spin-slow"
+          className="absolute w-[200%] h-[200%] animate-spin-slow-custom"
           style={{
             backgroundImage: "url('/network-bg.png')",
             backgroundSize:  "cover",
@@ -209,10 +218,10 @@ export default function Hero() {
 
       {/* ── LEFT: text content ── z-15 so back flowers hide behind it ────── */}
       <Container
-        className="relative flex items-center"
+        className="relative flex items-start md:items-center pt-8 md:pt-0"
         style={{
           zIndex: 15,
-          minHeight: "calc(72vh - clamp(48px, 6vw, 60px))",
+          minHeight: "calc(72vh - clamp(72px, 8vw, 86px))",
           paddingBottom: "clamp(30px, 4vw, 44px)",
         }}
       >
@@ -266,19 +275,6 @@ export default function Hero() {
             in our Accra studio.
           </h1>
 
-          {/* Subtitle */}
-          <p
-            className="font-light"
-            style={{
-              fontSize:   "clamp(13px, 1.4vw, 15px)",
-              lineHeight: 1.85,
-              maxWidth:   420,
-              color:      "rgba(255,255,255,0.50)",
-            }}
-          >
-            Every arrangement our floral shop studio on the effect
-            and depth effect of a coin carousel.
-          </p>
 
           {/* CTA buttons */}
           <div className="flex flex-wrap items-center gap-3 pt-1">

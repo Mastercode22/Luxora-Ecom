@@ -227,3 +227,13 @@
   92%  { translate:   8px  10px; scale: 1.00; filter: blur(0px)   brightness(1.00); opacity: 1.00; }
   100% { translate:   0px   0px; scale: 1.00; filter: blur(0px)   brightness(1.00); opacity: 1.00; }
 }
+
+/* ── Custom Slow Spin Animation for Plexus Background ────────────────────── */
+.animate-spin-slow-custom {
+  animation: spinSlowCustom 38s linear infinite;
+}
+
+@keyframes spinSlowCustom {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
