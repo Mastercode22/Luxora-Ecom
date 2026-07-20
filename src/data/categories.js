@@ -1,57 +1,44 @@
 export const categories = [
   {
     id: "c1",
-    name: "Birthday",
-    image: "https://images.unsplash.com/photo-1464349153735-7db50ed83c84?q=80&w=800&auto=format&fit=crop",
+    name: "Electronics",
+    count: "2,400+",
+    image:
+      "https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "c2",
-    name: "Wedding",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
+    name: "Fashion",
+    count: "5,800+",
+    image:
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "c3",
-    name: "Graduation",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop",
+    name: "Beauty",
+    count: "1,200+",
+    image:
+      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "c4",
-    name: "Baby Shower",
-    image: "https://images.unsplash.com/photo-1522771930-78848d9293e8?q=80&w=800&auto=format&fit=crop",
+    name: "Home & Living",
+    count: "3,100+",
+    image:
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "c5",
-    name: "Luxury Hampers",
-    image: "https://images.unsplash.com/photo-1607344645866-009c320c5ab0?q=80&w=800&auto=format&fit=crop",
+    name: "Sports",
+    count: "1,900+",
+    image:
+      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "c6",
-    name: "Corporate Gifts",
-    image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "c7",
-    name: "Flowers",
-    image: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "c8",
-    name: "Jewelry",
-    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "c9",
-    name: "Chocolate",
-    image: "https://images.unsplash.com/photo-1511381939415-e44015466834?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "c10",
-    name: "Perfume",
-    image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "c11",
-    name: "Teddy Bears",
-    image: "https://images.unsplash.com/photo-1562040506-a9b32cb69e47?q=80&w=800&auto=format&fit=crop",
+    name: "Accessories",
+    count: "4,200+",
+    image:
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop",
   },
 ];

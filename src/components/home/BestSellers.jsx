@@ -21,9 +21,9 @@ export default function BestSellers() {
     <section className="section-pad bg-surface">
       <Container className="flex flex-col gap-12 md:gap-14">
         <SectionTitle
-          eyebrow="Top Picks"
-          title="Best sellers this month"
-          description="Our most-gifted pieces — curated, hand-finished and loved by thousands."
+          eyebrow="Most Popular"
+          title="Trending Products"
+          description="Our highest-rated, most-purchased products — loved by thousands of shoppers worldwide."
         />
 
         {/* Mobile: swipeable */}

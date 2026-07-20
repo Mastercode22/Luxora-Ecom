@@ -4,10 +4,10 @@ import "swiper/css";
 import { FiTruck, FiStar, FiGift } from "react-icons/fi";
 
 const messages = [
-  { icon: "🚚", text: "Complimentary shipping on every order over GHS 500" },
-  { icon: "⭐", text: "Rated 4.9/5 by over 2,400 happy customers" },
-  { icon: "🎁", text: "Valentine specials — curated edits, live now" },
-  { icon: "📦", text: "Same-day delivery available in Accra & Kumasi" },
+  { icon: "🚚", text: "Free shipping on orders over $75 — worldwide delivery available" },
+  { icon: "⭐", text: "Rated 4.9/5 by over 50,000 satisfied customers globally" },
+  { icon: "⚡", text: "Flash sale — up to 40% off electronics, fashion & beauty" },
+  { icon: "📦", text: "New arrivals added every week from top global brands" },
 ];
 
 export default function AnnouncementBar() {

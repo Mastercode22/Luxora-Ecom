@@ -224,10 +224,20 @@ export default function Product() {
 
           {/* Right Column: Details */}
           <div className="flex flex-col pt-2 lg:pt-8 pb-32 lg:pb-0">
-            {/* Category */}
-            <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--color-primary)", marginBottom: 16 }}>
-              {product.category}
-            </span>
+            {/* Brand + Category */}
+            <div className="flex items-center gap-3 mb-4">
+              <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+                {product.brand || product.category}
+              </span>
+              {product.brand && (
+                <>
+                  <span style={{ color: "var(--color-border)", fontSize: 14 }}>·</span>
+                  <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--color-text-muted)" }}>
+                    {product.category}
+                  </span>
+                </>
+              )}
+            </div>
             
             {/* Title */}
             <h1 className="text-ink font-bold leading-[1.1] tracking-tight mb-6" style={{ fontSize: "clamp(36px, 4.5vw, 52px)" }}>

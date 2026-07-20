@@ -39,18 +39,18 @@ export default function FullWidthBanner() {
       <div ref={bgRef} className="absolute will-change-transform"
         style={{ inset: 0, top: "-12%", bottom: "-12%" }}>
         <img
-          src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc?q=80&w=1800&auto=format&fit=crop"
-          alt="Luxury dark roses"
+          src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1800&auto=format&fit=crop"
+          alt="Premium lifestyle shopping"
           loading="lazy"
           className="w-full h-full object-cover"
         />
       </div>
 
-      {/* Multi-layer gradient — angled for depth */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(105deg, rgba(26,26,26,0.78) 0%, rgba(26,26,26,0.52) 50%, rgba(26,26,26,0.25) 100%)" }} />
-      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.36) 0%, transparent 48%)" }} />
+      {/* Multi-layer gradient */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(105deg, rgba(11,0,21,0.88) 0%, rgba(11,0,21,0.60) 50%, rgba(11,0,21,0.28) 100%)" }} />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.44) 0%, transparent 48%)" }} />
 
-      {/* Left accent bar */}
+      {/* Left accent bar — purple */}
       <div className="absolute left-0 top-16 bottom-16 w-[3px]"
         style={{ background: "linear-gradient(to bottom, transparent, var(--color-primary), transparent)", borderRadius: 99 }} />
 
@@ -62,8 +62,18 @@ export default function FullWidthBanner() {
           transition={{ duration: 0.55, ease }}
           className="flex items-center gap-3"
         >
-          <span style={{ width: 28, height: 1, background: "rgba(255,209,230,0.65)", borderRadius: 99 }} />
-          <span className="eyebrow-lg" style={{ color: "#FFD1E6" }}>Made To Remember</span>
+          <span style={{ width: 28, height: 1, background: "rgba(167,139,250,0.65)", borderRadius: 99 }} />
+          <span
+            style={{
+              fontSize: 10,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              fontWeight: 700,
+              color: "rgba(167,139,250,0.85)",
+            }}
+          >
+            One Premium Destination
+          </span>
         </motion.div>
 
         <motion.h2
@@ -74,11 +84,20 @@ export default function FullWidthBanner() {
           className="font-sans font-bold text-white"
           style={{ fontSize: "clamp(28px, 4.8vw, 58px)", lineHeight: 1.07, letterSpacing: "-0.028em" }}
         >
-          Some gifts are opened once.{" "}
-          <em className="font-serif font-normal text-accent not-italic" style={{ fontStyle: "italic" }}>
-            Ours are remembered
+          Discover Your Next{" "}
+          <em
+            className="font-serif font-normal not-italic"
+            style={{
+              fontStyle: "italic",
+              background: "linear-gradient(90deg, #A78BFA, #C9A44A)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Favorite Product
           </em>{" "}
-          for years.
+          Today.
         </motion.h2>
 
         <motion.p
@@ -86,9 +105,9 @@ export default function FullWidthBanner() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.65, delay: 0.19, ease }}
-          style={{ fontSize: "clamp(13.5px, 1.6vw, 15.5px)", color: "rgba(255,255,255,0.58)", fontWeight: 300, lineHeight: 1.84, maxWidth: 420 }}
+          style={{ fontSize: "clamp(13.5px, 1.6vw, 15.5px)", color: "rgba(255,255,255,0.52)", fontWeight: 300, lineHeight: 1.84, maxWidth: 420 }}
         >
-          Every piece we create is designed to outlast the moment — a memory made tangible.
+          Thousands of curated products from the world's most trusted brands, all in one premium marketplace.
         </motion.p>
 
         <motion.div
@@ -98,11 +117,14 @@ export default function FullWidthBanner() {
           transition={{ duration: 0.60, delay: 0.28, ease }}
           className="flex flex-wrap items-center gap-4 pt-1"
         >
-          <Button variant="light">Discover Luxora</Button>
-          <a href="#shop" className="flex items-center gap-2 hover:text-white transition-colors duration-250"
-            style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.62)" }}>
-            Browse Collection
-            <span style={{ color: "#FFD1E6" }}>→</span>
+          <Button variant="light">Start Shopping</Button>
+          <a
+            href="#categories"
+            className="flex items-center gap-2 hover:text-white transition-colors duration-250"
+            style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.55)" }}
+          >
+            Browse Categories
+            <span style={{ color: "rgba(167,139,250,0.85)" }}>→</span>
           </a>
         </motion.div>
       </Container>

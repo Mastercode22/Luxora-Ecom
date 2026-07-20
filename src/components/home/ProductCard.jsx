@@ -19,7 +19,7 @@ export default function ProductCard({ product, index = 0 }) {
   const navigate = useNavigate();
 
   const { addItem }           = useCart();
-  const { toggle, isWishlisted } = useWishlist();
+  const { toggle, isWishlisted, remove } = useWishlist();
   const liked                  = isWishlisted(product.id);
 
   const discount = product.oldPrice && product.oldPrice > product.price
@@ -29,7 +29,10 @@ export default function ProductCard({ product, index = 0 }) {
     e?.stopPropagation();
     addItem(product);
     setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1500);
+    setTimeout(() => {
+      setJustAdded(false);
+      if (liked) remove(product.id);
+    }, 600);
   };
 
   return (
@@ -65,7 +68,6 @@ export default function ProductCard({ product, index = 0 }) {
             </div>
           )}
 
-          {/* Wishlist — top-right */}
           <motion.button
             onClick={(e) => { e.stopPropagation(); toggle(product); }}
             aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
@@ -74,7 +76,7 @@ export default function ProductCard({ product, index = 0 }) {
             className={`absolute top-3 right-3 z-10 flex items-center justify-center transition-all duration-350 ${
               liked
                 ? "text-primary"
-                : "text-white/90 hover:text-white"
+                : "text-primary/60 md:hover:text-primary"
             }`}
             style={{
               width: 40, height: 40, borderRadius: "50%",
@@ -82,7 +84,10 @@ export default function ProductCard({ product, index = 0 }) {
               background: "rgba(255, 255, 255, 0.2)",
             }}
           >
-            <FiHeart size={15} className={liked ? "fill-current" : ""} />
+            <FiHeart 
+              size={15} 
+              className={`transition-colors duration-300 ${liked ? "fill-current" : "max-md:fill-current md:hover:fill-current"}`} 
+            />
           </motion.button>
 
           {/* Images — default & hover */}
@@ -132,7 +137,7 @@ export default function ProductCard({ product, index = 0 }) {
                 width: 42, height: 42, borderRadius: "50%",
                 boxShadow: justAdded
                   ? "0 6px 18px rgba(0,200,83,0.38)"
-                  : "0 6px 18px rgba(255,203,116,0.35)",
+                  : "0 6px 18px rgba(124,58,237,0.35)",
               }}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -147,15 +152,22 @@ export default function ProductCard({ product, index = 0 }) {
 
         {/* ── Content area ────────────────────────────── */}
         <div className="flex flex-col gap-1.5 flex-1" style={{ padding: "14px 16px 16px" }}>
-          {/* Category */}
-          <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--color-primary)" }}>
-            {product.category}
-          </span>
+          {/* Brand + Category */}
+          <div className="flex items-center justify-between gap-1">
+            <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--color-primary)" }}>
+              {product.brand || product.category}
+            </span>
+            {product.brand && (
+              <span style={{ fontSize: 9, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--color-text-muted)" }}>
+                {product.category}
+              </span>
+            )}
+          </div>
 
           {/* Name */}
           <h3 className="font-semibold text-ink line-clamp-2 leading-snug"
             style={{ 
-              fontSize: "clamp(14px, 1.6vw, 15.5px)", 
+              fontSize: "clamp(13px, 1.4vw, 14.5px)", 
               letterSpacing: "-0.005em", 
               lineHeight: 1.36,
               display: "-webkit-box",

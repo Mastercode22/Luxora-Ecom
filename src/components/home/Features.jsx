@@ -1,21 +1,54 @@
 import { motion } from "framer-motion";
-import { FiTruck, FiShield, FiRefreshCw, FiHeadphones } from "react-icons/fi";
+import { FiTruck, FiShield, FiRefreshCw, FiStar } from "react-icons/fi";
 import Container from "../ui/Container";
+import SectionTitle from "../ui/SectionTitle";
 
 const ease = [0.22, 1, 0.36, 1];
 
 const FEATURES = [
-  { Icon: FiTruck,       emoji: "🚚", title: "Free Delivery",    description: "Complimentary shipping on every order over GHS 500, nationwide.", stat: "Same-day available" },
-  { Icon: FiShield,      emoji: "🔒", title: "Secure Payments",  description: "Every transaction is encrypted and PCI-compliant, end to end.",   stat: "256-bit SSL"       },
-  { Icon: FiRefreshCw,   emoji: "↩️", title: "Easy Returns",     description: "Not quite right? Free returns within 14 days, no questions asked.", stat: "14-day window"    },
-  { Icon: FiHeadphones,  emoji: "💬", title: "Premium Support",  description: "A dedicated concierge team, available seven days a week.",          stat: "7 days a week"    },
+  {
+    Icon: FiTruck,
+    emoji: "🚚",
+    title: "Lightning Delivery",
+    description: "Same-day delivery available in select cities. Standard orders dispatched within 24 hours.",
+    stat: "Same-day available",
+  },
+  {
+    Icon: FiShield,
+    emoji: "🔒",
+    title: "Secure Payments",
+    description: "Bank-grade 256-bit SSL encryption on every transaction. Shop with total confidence.",
+    stat: "256-bit SSL",
+  },
+  {
+    Icon: FiStar,
+    emoji: "✅",
+    title: "Premium Quality",
+    description: "Every product is verified for authenticity and meets our strict premium quality standards.",
+    stat: "Verified Authentic",
+  },
+  {
+    Icon: FiRefreshCw,
+    emoji: "↩️",
+    title: "Easy Returns",
+    description: "Not satisfied? Hassle-free returns within 30 days. No questions asked.",
+    stat: "30-day window",
+  },
 ];
 
 export default function Features() {
   return (
-    <section className="section-pad bg-section">
-      <Container>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ gap: "clamp(16px, 2vw, 24px)" }}>
+    <section className="bg-section" style={{ paddingBlock: "clamp(36px, 5vw, 64px)" }}>
+      <Container className="flex flex-col gap-8 md:gap-10">
+        <SectionTitle
+          eyebrow="Why Luxora"
+          title="The Smarter Way to Shop"
+          description="We've built a premium shopping experience around what matters most to you."
+        />
+        <div
+          className="grid grid-cols-2 lg:grid-cols-4"
+          style={{ gap: "clamp(16px, 2vw, 24px)" }}
+        >
           {FEATURES.map((f, i) => (
             <FeatureCard key={f.title} {...f} index={i} />
           ))}
@@ -25,7 +58,7 @@ export default function Features() {
   );
 }
 
-function FeatureCard({ Icon, emoji, title, description, stat, index }) {
+function FeatureCard({ Icon, title, description, stat, index }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
@@ -35,25 +68,29 @@ function FeatureCard({ Icon, emoji, title, description, stat, index }) {
       className="group bg-surface flex flex-col"
       style={{
         borderRadius: 24,
-        padding: "28px 26px 26px",
+        padding: "18px 18px 16px",
         transition: "transform 480ms cubic-bezier(0.22,1,0.36,1), box-shadow 480ms cubic-bezier(0.22,1,0.36,1)",
         boxShadow: "0 0 0 1px rgba(20,16,18,.038), 0 1px 3px rgba(20,16,18,.026), 0 8px 22px -12px rgba(20,16,18,.07)",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-7px)";
-        e.currentTarget.style.boxShadow = "0 0 0 1px rgba(233,30,99,.07), 0 4px 10px rgba(20,16,18,.04), 0 24px 56px -16px rgba(20,16,18,.12)";
+        e.currentTarget.style.boxShadow =
+          "0 0 0 1px rgba(124,58,237,.10), 0 4px 10px rgba(20,16,18,.04), 0 24px 56px -16px rgba(124,58,237,.14)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = "translateY(0)";
-        e.currentTarget.style.boxShadow = "0 0 0 1px rgba(20,16,18,.038), 0 1px 3px rgba(20,16,18,.026), 0 8px 22px -12px rgba(20,16,18,.07)";
+        e.currentTarget.style.boxShadow =
+          "0 0 0 1px rgba(20,16,18,.038), 0 1px 3px rgba(20,16,18,.026), 0 8px 22px -12px rgba(20,16,18,.07)";
       }}
     >
       {/* Icon circle */}
       <div
-        className="flex items-center justify-center mb-6"
+        className="flex items-center justify-center mb-4"
         style={{
-          width: 54, height: 54, borderRadius: "50%",
-          background: "var(--color-surface)",
+          width: 44,
+          height: 44,
+          borderRadius: "50%",
+          background: "rgba(124,58,237,0.08)",
           transition: "background 400ms ease, transform 400ms cubic-bezier(0.34,1.56,0.64,1)",
         }}
         ref={(el) => {
@@ -64,7 +101,7 @@ function FeatureCard({ Icon, emoji, title, description, stat, index }) {
             el.querySelector("svg") && (el.querySelector("svg").style.color = "#fff");
           });
           el.closest(".group")?.addEventListener("mouseleave", () => {
-            el.style.background = "var(--color-surface)";
+            el.style.background = "rgba(124,58,237,0.08)";
             el.style.transform = "scale(1) rotate(0deg)";
             el.querySelector("svg") && (el.querySelector("svg").style.color = "var(--color-primary)");
           });
@@ -82,12 +119,21 @@ function FeatureCard({ Icon, emoji, title, description, stat, index }) {
 
       {/* Stat chip */}
       <div className="mt-6">
-        <span style={{
-          display: "inline-flex", alignItems: "center", gap: 6,
-          padding: "5px 12px", borderRadius: 99,
-          background: "rgba(233,30,99,0.08)",
-          fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--color-primary)",
-        }}>
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "5px 12px",
+            borderRadius: 99,
+            background: "rgba(124,58,237,0.07)",
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: "var(--color-primary)",
+          }}
+        >
           <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-primary)" }} />
           {stat}
         </span>

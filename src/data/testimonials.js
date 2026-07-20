@@ -1,34 +1,38 @@
 export const testimonials = [
   {
     id: "t1",
-    name: "Amara Osei",
-    role: "Accra, Ghana",
+    name: "Sophia Chen",
+    role: "Verified Buyer — Sony WH-1000XM5",
     quote:
-      "Every box from Luxora feels like a small ceremony. The packaging alone made my sister cry happy tears.",
-    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop",
+      "The noise cancellation on these headphones is genuinely life-changing. I use them daily for work calls and music. Luxora's packaging and delivery were flawless.",
+    image:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop",
   },
   {
     id: "t2",
-    name: "Daniel Mensah",
-    role: "Kumasi, Ghana",
+    name: "Marcus Williams",
+    role: "Verified Buyer — Nike Cortez Leather",
     quote:
-      "Same-day delivery saved my anniversary. The flowers were fresher than anything I've bought in person.",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop",
+      "Got these delivered in two days. Fit is perfect, leather quality is incredible for the price. Luxora is now my default for premium sneakers.",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop",
   },
   {
     id: "t3",
-    name: "Naomi Addo",
-    role: "Tema, Ghana",
+    name: "Isabelle Rousseau",
+    role: "Verified Buyer — La Mer Ritual Set",
     quote:
-      "The corporate hampers we ordered for our clients were the most complimented gift we've ever sent.",
-    image: "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=200&auto=format&fit=crop",
+      "Ordered the skincare set as a gift and the presentation was stunning. My friend was completely wowed before even opening the box. Will be shopping here again.",
+    image:
+      "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=200&auto=format&fit=crop",
   },
   {
     id: "t4",
-    name: "Kwame Boateng",
-    role: "Takoradi, Ghana",
+    name: "James Okafor",
+    role: "Verified Buyer — Apple Watch Ultra 2",
     quote:
-      "Thoughtful curation, unhurried unboxing, genuinely premium feel. This is my go-to for every occasion now.",
-    image: "https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?q=80&w=200&auto=format&fit=crop",
+      "The experience from browsing to unboxing was premium at every step. The watch is incredible, and Luxora's customer service team was exceptional when I had a sizing question.",
+    image:
+      "https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?q=80&w=200&auto=format&fit=crop",
   },
 ];

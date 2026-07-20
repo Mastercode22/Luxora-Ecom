@@ -1,21 +1,31 @@
 import {
-  FiInstagram, FiFacebook, FiTwitter, FiMapPin, FiPhone, FiMail, FiArrowRight,
+  FiInstagram, FiFacebook, FiTwitter, FiYoutube, FiMapPin, FiPhone, FiMail, FiArrowRight,
 } from "react-icons/fi";
 import Container from "../ui/Container";
 
 const LINKS = [
-  { title: "Shop",    links: ["Flowers", "Luxury Hampers", "Jewelry", "Chocolate & Sweets", "Corporate Gifts"] },
-  { title: "Company", links: ["About Luxora", "The Studio Journal", "Sustainability", "Careers", "Contact"] },
-  { title: "Support", links: ["Track Order", "Shipping & Delivery", "Returns & Refunds", "FAQs", "Gift Cards"] },
+  {
+    title: "Shop",
+    links: ["Electronics", "Fashion", "Beauty", "Home & Living", "Sports", "Accessories", "New Arrivals", "Deals"],
+  },
+  {
+    title: "Customer Service",
+    links: ["Contact Us", "Shipping & Delivery", "Returns & Refunds", "Order Tracking", "FAQs"],
+  },
+  {
+    title: "Company",
+    links: ["About Luxora", "Careers", "Privacy Policy", "Terms of Service", "Press"],
+  },
 ];
 
 const SOCIAL = [
   { Icon: FiInstagram, label: "Instagram" },
   { Icon: FiFacebook,  label: "Facebook"  },
   { Icon: FiTwitter,   label: "X / Twitter" },
+  { Icon: FiYoutube,   label: "YouTube" },
 ];
 
-const PAYMENTS = ["💳 Visa", "💳 Mastercard", "📱 Mobile Money", "🍎 Apple Pay"];
+const PAYMENTS = ["💳 Visa", "💳 Mastercard", "🅿️ PayPal", "🍎 Apple Pay", "🤖 Google Pay"];
 
 export default function Footer() {
   return (
@@ -34,20 +44,19 @@ export default function Footer() {
                 Luxora
               </span>
               <span style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--color-primary)", marginBottom: 2 }}>
-                Gifts
+                Market
               </span>
             </div>
 
             <p style={{ fontSize: 13, color: "var(--color-text-secondary)", fontWeight: 300, lineHeight: 1.82, maxWidth: 240 }}>
-              Thoughtfully curated flowers, hampers and keepsakes, delivered with the same care you'd give them yourself.
+              Premium products. Exceptional quality. Seamless shopping. Your one-stop destination for the world's best brands.
             </p>
 
             {/* Contact */}
             <div className="flex flex-col" style={{ gap: 10 }}>
               {[
-                { Icon: FiMapPin, text: "Airport Residential, Accra" },
-                { Icon: FiPhone,  text: "+233 20 000 0000"           },
-                { Icon: FiMail,   text: "hello@luxoragifts.com"       },
+                { Icon: FiPhone,  text: "+233 50-655-23"        },
+                { Icon: FiMail,   text: "support@luxoramarket.com"  },
               ].map(({ Icon, text }) => (
                 <span key={text} className="flex items-center gap-2.5" style={{ fontSize: 12.5, color: "var(--color-text-muted)", fontWeight: 300 }}>
                   <Icon size={12} style={{ color: "var(--color-primary)", flexShrink: 0 }} />
@@ -59,7 +68,7 @@ export default function Footer() {
             {/* Social */}
             <div className="flex items-center" style={{ gap: 8, marginTop: 4 }}>
               {SOCIAL.map(({ Icon, label }) => (
-                  <a key={label} href="/#" aria-label={label}
+                <a key={label} href="/#" aria-label={label}
                   className="flex items-center justify-center transition-all duration-350 hover:-translate-y-1"
                   style={{
                     width: 38, height: 38, borderRadius: "50%",
@@ -97,10 +106,10 @@ export default function Footer() {
           {/* Email signup */}
           <div className="flex flex-col col-span-3 lg:col-span-1" style={{ gap: 16 }}>
             <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--color-text-muted)" }}>
-              Stay in touch
+              Stay Updated
             </p>
             <p style={{ fontSize: 12.5, color: "var(--color-text-secondary)", fontWeight: 300, lineHeight: 1.72 }}>
-              First access to new drops and seasonal edits.
+              Get updates about new products and exclusive offers from top brands.
             </p>
             <form onSubmit={(e) => e.preventDefault()} className="flex flex-col" style={{ gap: 8 }}>
               <div className="flex items-center gap-2.5"
@@ -118,7 +127,7 @@ export default function Footer() {
                 className="flex items-center justify-center gap-2 transition-all duration-350 hover:-translate-y-0.5"
                 style={{ borderRadius: 14, background: "var(--color-primary)", color: "#fff", border: "none", cursor: "pointer",
                   padding: "12px 0", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
-                  boxShadow: "0 8px 24px -8px rgba(233,30,99,0.40)" }}
+                  boxShadow: "0 8px 24px -8px rgba(124,58,237,0.40)" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = "var(--color-primary-dark)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = "var(--color-primary)"; }}
               >
@@ -131,7 +140,7 @@ export default function Footer() {
         {/* ── Bottom bar ── */}
         <div className="flex flex-col sm:flex-row items-center justify-between pt-8" style={{ gap: 16 }}>
           <p style={{ fontSize: 11.5, color: "var(--color-text-muted)", fontWeight: 300 }}>
-            © {new Date().getFullYear()} Luxora Gifts. All rights reserved.
+            © {new Date().getFullYear()} Luxora Market. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center" style={{ gap: 8 }}>
             {PAYMENTS.map((m) => (

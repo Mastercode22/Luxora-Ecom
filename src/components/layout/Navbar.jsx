@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import {
   FiSearch,
   FiHeart,
@@ -15,62 +16,73 @@ import {
   FiArrowRight,
   FiSun,
   FiMoon,
+  FiCheck,
 } from "react-icons/fi";
 import Container from "../ui/Container";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { useTheme } from "../../context/ThemeContext";
+import { products } from "../../data/products";
 
 const ease = [0.22, 1, 0.36, 1];
 
 const navLinks = [
   { label: "Home", href: "/#top" },
   {
-    label: "Shop",
+    label: "Electronics",
     href: "/#shop",
     mega: [
       {
-        title: "Flowers",
-        items: [
-          "Rose Bouquets",
-          "Peony Arrangements",
-          "Sunflowers",
-          "Everyday Blooms",
-        ],
+        title: "Audio",
+        items: ["Headphones", "Earbuds", "Speakers", "Soundbars"],
       },
       {
-        title: "Gifting",
-        items: [
-          "Luxury Hampers",
-          "Chocolate & Sweets",
-          "Jewelry & Keepsakes",
-          "Candles & Spa",
-        ],
+        title: "Devices",
+        items: ["Smartphones", "Laptops", "Tablets", "Smart Watches"],
       },
       {
-        title: "Occasions",
-        items: ["Birthday", "Wedding & Bridal", "Baby Shower", "Anniversary"],
+        title: "Gaming",
+        items: ["Gaming Mice", "Keyboards", "Controllers", "Monitors"],
       },
     ],
   },
-  { label: "Occasions", href: "/#occasions" },
-  { label: "Collections", href: "/#collections" },
-  { label: "Corporate", href: "/#corporate" },
-  { label: "About", href: "/#about" },
+  {
+    label: "Fashion",
+    href: "/#shop",
+    mega: [
+      {
+        title: "Clothing",
+        items: ["Jackets", "Shirts", "Trousers", "Activewear"],
+      },
+      {
+        title: "Footwear",
+        items: ["Sneakers", "Boots", "Loafers", "Sandals"],
+      },
+      {
+        title: "Bags",
+        items: ["Tote Bags", "Backpacks", "Crossbody", "Clutches"],
+      },
+    ],
+  },
+  { label: "Beauty",      href: "/#shop" },
+  { label: "Home & Living", href: "/#shop" },
+  { label: "Sports",      href: "/#shop" },
+  { label: "New Arrivals", href: "/#shop" },
+  { label: "Deals",       href: "/#deals" },
 ];
 
 const MEGA_FEATURED = {
   image:
-    "https://images.unsplash.com/photo-1520367445093-50dc08a59d9d?q=80&w=600&auto=format&fit=crop",
-  label: "The Valentine Edit",
-  sub: "Hand-tied arrangements, delivered same day.",
+    "https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=600&auto=format&fit=crop",
+  label: "New Arrivals",
+  sub: "The latest tech, fashion & beauty drops — updated weekly.",
 };
 
-/* Rotating concierge line — quiet, editorial, never shouty */
+/* Rotating top bar messages */
 const TOPBAR_MESSAGES = [
-  "Complimentary hand-tied wrapping on every order",
-  "Same-day delivery across Accra, before 2pm",
-  "Speak with our floral concierge — chat now",
+  "Free shipping on orders over $75 — worldwide delivery available",
+  "Up to 40% off in our current flash sale — limited time only",
+  "New arrivals every week from the world's top brands",
 ];
 
 /* ─── Icon button base style ──────────────────────── */
@@ -133,6 +145,7 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [openMega, setOpenMega] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [profileOpen, setProfileOpen] = useState(false);
   const [expandedMobile, setExpandedMobile] = useState(null);
   const [msgIndex, setMsgIndex] = useState(0);
@@ -186,6 +199,21 @@ export default function Navbar() {
     };
   }, [drawerOpen, cartOpen, wishlistOpen]);
 
+  /* Escape key closes search */
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape" && searchOpen) setSearchOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [searchOpen]);
+
+  /* Auto-focus search input */
+  useEffect(() => {
+    if (searchOpen && searchRef.current) {
+      const timer = setTimeout(() => searchRef.current.focus(), 50);
+      return () => clearTimeout(timer);
+    }
+  }, [searchOpen]);
+
   const enterMega = (label) => {
     clearTimeout(megaTimeout.current);
     setOpenMega(label);
@@ -207,6 +235,15 @@ export default function Navbar() {
       }`;
     }
   };
+
+  const filteredProducts = searchQuery.trim() 
+    ? products.filter(p => {
+        const q = searchQuery.toLowerCase();
+        return (p.name?.toLowerCase() || "").includes(q) || 
+               (p.category?.toLowerCase() || "").includes(q) || 
+               (p.brand?.toLowerCase() || "").includes(q);
+      })
+    : [];
 
   return (
     <>
@@ -236,442 +273,313 @@ export default function Navbar() {
               : "0 4px 24px -8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.15)",
           }}
         >
-        {/* ════ Main row ════════════════════════════════ */}
+      {/* ════ Main row — relative wrapper holds both states ════ */}
       <Container
-        className="flex items-center justify-between"
-        style={{ height: "clamp(54px, 6vw, 64px)", gap: 24, paddingLeft: "clamp(16px, 3vw, 32px)", paddingRight: "clamp(16px, 3vw, 32px)" }}
+        className="relative flex items-center"
+        style={{ height: "clamp(54px, 6vw, 64px)", paddingLeft: "clamp(16px, 3vw, 32px)", paddingRight: "clamp(16px, 3vw, 32px)" }}
       >
-        {/* Logo — with signature drawn flourish */}
-        <a
-          href="/#top"
-          aria-label="Luxora — Home"
-          className="relative flex items-end gap-1.5 shrink-0 group"
+        {/* ── Normal navbar content ── */}
+        <div
+          className="absolute inset-0 flex items-center justify-between px-[clamp(16px,3vw,32px)] transition-all duration-300"
+          style={{
+            opacity: searchOpen ? 0 : 1,
+            transform: searchOpen ? "scale(0.97)" : "scale(1)",
+            pointerEvents: searchOpen ? "none" : "auto",
+          }}
         >
-          <span
-            className={`font-serif italic group-hover:text-primary transition-colors duration-350 ${scrolled ? "text-ink" : "text-white"}`}
-            style={{
-              fontSize: "clamp(22px, 2.8vw, 28px)",
-              lineHeight: 1,
-              letterSpacing: "-0.01em",
-            }}
+          {/* Logo */}
+          <a
+            href="/#top"
+            aria-label="Luxora — Home"
+            className="relative flex items-end gap-1.5 shrink-0 group"
           >
-            Luxora
-          </span>
-          <span
-            className="font-sans font-bold text-primary mb-[2px]"
-            style={{
-              fontSize: 9,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-            }}
-          >
-            Gifts
-          </span>
-
-          {/* Hand-drawn stem flourish, traces in on hover */}
-          <svg
-            aria-hidden="true"
-            width="86"
-            height="14"
-            viewBox="0 0 86 14"
-            className="absolute -bottom-2 left-0 pointer-events-none overflow-visible"
-          >
-            <motion.path
-              d="M1 3 C 22 3, 30 11, 48 6 S 74 1, 85 7"
-              fill="none"
-              stroke="var(--color-primary)"
-              strokeWidth="1.4"
-              strokeLinecap="round"
-              initial={{ pathLength: 0, opacity: 0 }}
-              whileHover={{ pathLength: 1, opacity: 0.85 }}
-              animate={{ pathLength: 0, opacity: 0 }}
-              transition={{ duration: 0.55, ease }}
-            />
-            <motion.circle
-              cx="85"
-              cy="7"
-              r="1.6"
-              fill="var(--color-primary)"
-              initial={{ opacity: 0 }}
-              whileHover={{ opacity: 0.85 }}
-              animate={{ opacity: 0 }}
-              transition={{ duration: 0.4, delay: 0.35 }}
-            />
-          </svg>
-        </a>
-
-        {/* Desktop nav */}
-        <nav
-          className="hidden lg:flex items-center"
-          style={{ gap: "clamp(16px, 2.2vw, 32px)" }}
-          aria-label="Primary"
-        >
-          {navLinks.map((link) => (
-            <div
-              key={link.label}
-              className="relative group/link"
-              onMouseEnter={() => link.mega && enterMega(link.label)}
-              onMouseLeave={() => link.mega && leaveMega()}
+            <span
+              className={`font-serif italic group-hover:text-primary transition-colors duration-350 ${scrolled ? "text-ink" : "text-white"}`}
+              style={{ fontSize: "clamp(22px, 2.8vw, 28px)", lineHeight: 1, letterSpacing: "-0.01em" }}
             >
-              <a
-                href={link.href}
-                className={`relative flex items-center gap-1 py-2 font-medium transition-colors duration-250 ${
-                  scrolled ? "text-ink hover:text-primary" : "text-white/85 hover:text-white"
-                }`}
-              >
-                {link.label}
-                {link.mega && (
-                  <motion.span
-                    animate={{ rotate: openMega === link.label ? 180 : 0 }}
-                    transition={{ duration: 0.22 }}
-                    style={{ display: "flex", opacity: 0.55, fontSize: 11 }}
-                  >
-                    <FiChevronDown />
-                  </motion.span>
-                )}
-                {/* Center-out underline */}
-                <span
-                  aria-hidden="true"
-                  className="absolute left-1/2 -bottom-0.5 h-[1.5px] w-0 -translate-x-1/2 bg-primary transition-all duration-300 ease-out group-hover/link:w-full"
-                />
-              </a>
+              Luxora
+            </span>
+            <span
+              className="font-sans font-bold text-primary mb-[2px]"
+              style={{ fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase" }}
+            >
+              Market
+            </span>
+            {/* Hand-drawn stem flourish */}
+            <svg aria-hidden="true" width="86" height="14" viewBox="0 0 86 14"
+              className="absolute -bottom-2 left-0 pointer-events-none overflow-visible">
+              <motion.path d="M1 3 C 22 3, 30 11, 48 6 S 74 1, 85 7" fill="none"
+                stroke="var(--color-primary)" strokeWidth="1.4" strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }} whileHover={{ pathLength: 1, opacity: 0.85 }}
+                animate={{ pathLength: 0, opacity: 0 }} transition={{ duration: 0.55, ease }} />
+              <motion.circle cx="85" cy="7" r="1.6" fill="var(--color-primary)"
+                initial={{ opacity: 0 }} whileHover={{ opacity: 0.85 }}
+                animate={{ opacity: 0 }} transition={{ duration: 0.4, delay: 0.35 }} />
+            </svg>
+          </a>
 
-              {/* Mega menu */}
-              <AnimatePresence>
-                {link.mega && openMega === link.label && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 14, scale: 0.975 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.975 }}
-                    transition={{ duration: 0.22, ease }}
-                    onMouseEnter={() => enterMega(link.label)}
-                    onMouseLeave={leaveMega}
-                    className="absolute left-1/2 -translate-x-1/2 top-full bg-surface border border-line/60 overflow-hidden z-50"
-                    style={{
-                      marginTop: 18,
-                      width: 620,
-                      borderRadius: 24,
-                      boxShadow:
-                        "0 24px 64px -18px rgba(0,0,0,0.20), 0 6px 18px rgba(0,0,0,0.07)",
-                    }}
-                  >
-                    {/* thin gold hairline crown */}
-                    <div
-                      style={{
-                        height: 2,
-                        background:
-                          "linear-gradient(90deg, transparent, var(--color-primary), transparent)",
-                      }}
-                    />
-
-                    <div className="grid grid-cols-[1fr_1fr_1fr_172px]">
-                      <div
-                        className="col-span-3 grid grid-cols-3 p-8"
-                        style={{ gap: 0 }}
-                      >
-                        {link.mega.map((col, ci) => (
-                          <div
-                            key={col.title}
-                            className="flex flex-col"
-                            style={{
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center" style={{ gap: "clamp(16px, 2.2vw, 32px)" }} aria-label="Primary">
+            {navLinks.map((link) => (
+              <div key={link.label} className="relative group/link"
+                onMouseEnter={() => link.mega && enterMega(link.label)}
+                onMouseLeave={() => link.mega && leaveMega()}>
+                <a href={link.href}
+                  className={`relative flex items-center gap-1 py-2 font-medium transition-colors duration-250 ${
+                    scrolled ? "text-ink hover:text-primary" : "text-white/85 hover:text-white"
+                  }`}>
+                  {link.label}
+                  {link.mega && (
+                    <motion.span animate={{ rotate: openMega === link.label ? 180 : 0 }}
+                      transition={{ duration: 0.22 }} style={{ display: "flex", opacity: 0.55, fontSize: 11 }}>
+                      <FiChevronDown />
+                    </motion.span>
+                  )}
+                  <span aria-hidden="true"
+                    className="absolute left-1/2 -bottom-0.5 h-[1.5px] w-0 -translate-x-1/2 bg-primary transition-all duration-300 ease-out group-hover/link:w-full" />
+                </a>
+                {/* Mega menu */}
+                <AnimatePresence>
+                  {link.mega && openMega === link.label && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 14, scale: 0.975 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.975 }}
+                      transition={{ duration: 0.22, ease }}
+                      onMouseEnter={() => enterMega(link.label)}
+                      onMouseLeave={leaveMega}
+                      className="absolute left-1/2 -translate-x-1/2 top-full bg-surface border border-line/60 overflow-hidden z-50"
+                      style={{ marginTop: 18, width: 620, borderRadius: 24,
+                        boxShadow: "0 24px 64px -18px rgba(0,0,0,0.20), 0 6px 18px rgba(0,0,0,0.07)" }}>
+                      <div style={{ height: 2, background: "linear-gradient(90deg, transparent, var(--color-primary), transparent)" }} />
+                      <div className="grid grid-cols-[1fr_1fr_1fr_172px]">
+                        <div className="col-span-3 grid grid-cols-3 p-8" style={{ gap: 0 }}>
+                          {link.mega.map((col, ci) => (
+                            <div key={col.title} className="flex flex-col" style={{
                               gap: 10,
                               paddingRight: ci < 2 ? 24 : 0,
                               paddingLeft: ci > 0 ? 24 : 0,
-                              borderRight:
-                                ci < 2
-                                  ? "1px solid var(--color-border)"
-                                  : "none",
-                            }}
-                          >
-                            <p
-                              style={{
-                                fontSize: 9.5,
-                                fontWeight: 700,
-                                letterSpacing: "0.15em",
-                                textTransform: "uppercase",
-                                color: "var(--color-primary)",
-                                marginBottom: 4,
-                              }}
-                            >
-                              {col.title}
+                              borderRight: ci < 2 ? "1px solid var(--color-border)" : "none",
+                            }}>
+                              <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--color-primary)", marginBottom: 4 }}>
+                                {col.title}
+                              </p>
+                              {col.items.map((item) => (
+                                <a key={item} href="#"
+                                  className="group/i flex items-center gap-1.5 hover:text-primary transition-colors duration-200"
+                                  style={{ fontSize: 12.5, color: "var(--color-text-secondary)" }}>
+                                  <FiChevronRight style={{ fontSize: 9, opacity: 0, transition: "opacity 0.2s, transform 0.2s" }}
+                                    className="group-hover/i:opacity-100 group-hover/i:translate-x-0.5 text-primary" />
+                                  {item}
+                                </a>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                        {/* Featured panel */}
+                        <div className="relative overflow-hidden bg-secondary/40">
+                          <img src={MEGA_FEATURED.image} alt="" loading="lazy"
+                            className="absolute inset-0 w-full h-full object-cover opacity-75 transition-transform duration-700 hover:scale-105" />
+                          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.15) 55%, transparent 100%)" }} />
+                          <div className="absolute bottom-5 left-4 right-4">
+                            <p style={{ fontSize: 9.5, color: "rgba(255,255,255,0.65)", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600, marginBottom: 4 }}>
+                              {MEGA_FEATURED.label}
                             </p>
-                            {col.items.map((item) => (
-                              <a
-                                key={item}
-                                href="#"
-                                className="group/i flex items-center gap-1.5 hover:text-primary transition-colors duration-200"
-                                style={{
-                                  fontSize: 12.5,
-                                  color: "var(--color-text-secondary)",
-                                }}
-                              >
-                                <FiChevronRight
-                                  style={{
-                                    fontSize: 9,
-                                    opacity: 0,
-                                    transition: "opacity 0.2s, transform 0.2s",
-                                  }}
-                                  className="group-hover/i:opacity-100 group-hover/i:translate-x-0.5 text-primary"
-                                />
-                                {item}
-                              </a>
-                            ))}
+                            <p className="font-serif italic" style={{ fontSize: 13.5, color: "#fff", lineHeight: 1.4 }}>
+                              {MEGA_FEATURED.sub}
+                            </p>
+                            <button className="flex items-center gap-1 mt-2.5 hover:text-white transition-colors"
+                              style={{ fontSize: 10.5, color: "rgba(255,255,255,0.7)", fontWeight: 600, letterSpacing: "0.04em" }}>
+                              Shop Now <FiArrowRight style={{ fontSize: 9.5 }} />
+                            </button>
                           </div>
-                        ))}
-                      </div>
-
-                      {/* Featured panel */}
-                      <div className="relative overflow-hidden bg-secondary/40">
-                        <img
-                          src={MEGA_FEATURED.image}
-                          alt=""
-                          loading="lazy"
-                          className="absolute inset-0 w-full h-full object-cover opacity-75 transition-transform duration-700 hover:scale-105"
-                        />
-                        <div
-                          className="absolute inset-0"
-                          style={{
-                            background:
-                              "linear-gradient(to top, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.15) 55%, transparent 100%)",
-                          }}
-                        />
-                        <div className="absolute bottom-5 left-4 right-4">
-                          <p
-                            style={{
-                              fontSize: 9.5,
-                              color: "rgba(255,255,255,0.65)",
-                              textTransform: "uppercase",
-                              letterSpacing: "0.1em",
-                              fontWeight: 600,
-                              marginBottom: 4,
-                            }}
-                          >
-                            {MEGA_FEATURED.label}
-                          </p>
-                          <p
-                            className="font-serif italic"
-                            style={{
-                              fontSize: 13.5,
-                              color: "#fff",
-                              lineHeight: 1.4,
-                            }}
-                          >
-                            {MEGA_FEATURED.sub}
-                          </p>
-                          <button
-                            className="flex items-center gap-1 mt-2.5 hover:text-white transition-colors"
-                            style={{
-                              fontSize: 10.5,
-                              color: "rgba(255,255,255,0.7)",
-                              fontWeight: 600,
-                              letterSpacing: "0.04em",
-                            }}
-                          >
-                            Shop Now <FiArrowRight style={{ fontSize: 9.5 }} />
-                          </button>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
-        </nav>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </nav>
 
-        {/* Icon cluster */}
-        <div className="flex items-center" style={{ gap: 2 }}>
+          {/* Icon cluster */}
+          <div className="flex items-center" style={{ gap: 2 }}>
+          {/* Search icon — opens search mode */}
+          <button aria-label="Search" onClick={() => { setSearchOpen(true); setProfileOpen(false); }}
+            className={`${getIBClass(searchOpen)} flex`}>
+            <FiSearch size={17} />
+          </button>
+
           {/* Theme Toggle */}
-          <button
-            aria-label="Toggle Theme"
-            onClick={toggleTheme}
-            className={`${getIBClass()} overflow-hidden`}
-          >
+          <button aria-label="Toggle Theme" onClick={toggleTheme} className={`${getIBClass()} overflow-hidden`}>
             <AnimatePresence mode="wait">
               {theme === "dark" ? (
-                <motion.div
-                  key="moon"
-                  initial={{ y: -20, opacity: 0, rotate: -30 }}
-                  animate={{ y: 0, opacity: 1, rotate: 0 }}
-                  exit={{ y: 20, opacity: 0, rotate: 30 }}
-                  transition={{ duration: 0.24 }}
-                >
+                <motion.div key="moon" initial={{ y: -20, opacity: 0, rotate: -30 }} animate={{ y: 0, opacity: 1, rotate: 0 }} exit={{ y: 20, opacity: 0, rotate: 30 }} transition={{ duration: 0.24 }}>
                   <FiMoon size={17} />
                 </motion.div>
               ) : (
-                <motion.div
-                  key="sun"
-                  initial={{ y: -20, opacity: 0, rotate: 30 }}
-                  animate={{ y: 0, opacity: 1, rotate: 0 }}
-                  exit={{ y: 20, opacity: 0, rotate: -30 }}
-                  transition={{ duration: 0.24 }}
-                >
+                <motion.div key="sun" initial={{ y: -20, opacity: 0, rotate: 30 }} animate={{ y: 0, opacity: 1, rotate: 0 }} exit={{ y: 20, opacity: 0, rotate: -30 }} transition={{ duration: 0.24 }}>
                   <FiSun size={17} />
                 </motion.div>
               )}
             </AnimatePresence>
           </button>
 
-          <button
-            aria-label="Search"
-            onClick={() => {
-              setSearchOpen((v) => !v);
-              setProfileOpen(false);
-            }}
-            className={`${getIBClass(searchOpen)} hidden sm:flex`}
-          >
-            <FiSearch size={17} />
-          </button>
-
-          <button
-            aria-label={`Wishlist (${wishlistCount})`}
-            onClick={openWishlist}
-            className={getIBClass()}
-          >
-            <FiHeart size={17} />
-            {wishlistCount > 0 && (
-              <motion.span
-                key={wishlistCount}
-                initial={{ scale: 0.4 }}
-                animate={{ scale: 1 }}
-                className="absolute top-0.5 right-0.5 bg-primary text-white rounded-full flex items-center justify-center font-bold tabular-nums"
-                style={{
-                  width: 17,
-                  height: 17,
-                  fontSize: 9,
-                  boxShadow: "0 0 0 2px var(--color-surface)",
-                }}
-              >
-                {wishlistCount}
-              </motion.span>
-            )}
-          </button>
-
-          <button
-            aria-label={`Cart (${cartCount})`}
-            onClick={openCart}
-            className={getIBClass()}
-          >
-            <FiShoppingBag size={17} />
-            {cartCount > 0 && (
-              <motion.span
-                key={cartCount}
-                initial={{ scale: 0.4 }}
-                animate={{ scale: 1 }}
-                className="absolute top-0.5 right-0.5 bg-primary text-white rounded-full flex items-center justify-center font-bold tabular-nums"
-                style={{
-                  width: 17,
-                  height: 17,
-                  fontSize: 9,
-                  boxShadow: "0 0 0 2px var(--color-surface)",
-                }}
-              >
-                {cartCount}
-              </motion.span>
-            )}
-          </button>
-
-          {/* Profile dropdown */}
-          <div className="relative hidden sm:block">
-            <button
-              aria-label="Account"
-              onClick={() => {
-                setProfileOpen((v) => !v);
-                setSearchOpen(false);
-              }}
-              className={getIBClass(profileOpen)}
-            >
-              <FiUser size={17} />
-            </button>
-            <AnimatePresence>
-              {profileOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                  transition={{ duration: 0.18, ease }}
-                  className="absolute right-0 top-full bg-surface border border-line/60 flex flex-col p-1.5 z-50"
-                  style={{
-                    marginTop: 10,
-                    width: 204,
-                    borderRadius: 18,
-                    boxShadow:
-                      "0 12px 40px -10px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.06)",
-                  }}
-                >
-                  {[
-                    { l: "Sign In", e: "👤" },
-                    { l: "Create Account", e: "✨" },
-                    { l: "Track Order", e: "📦" },
-                  ].map(({ l, e }) => (
-                    <button
-                      key={l}
-                      onClick={() => setProfileOpen(false)}
-                      className="text-left flex items-center gap-2.5 rounded-[13px] px-3.5 py-2.5 hover:bg-surface/50 hover:text-primary transition-colors duration-200"
-                      style={{
-                        fontSize: 12.5,
-                        color: "var(--color-text-secondary)",
-                        fontWeight: 500,
-                      }}
-                    >
-                      <span style={{ fontSize: 14 }}>{e}</span> {l}
-                    </button>
-                  ))}
-                </motion.div>
+            {/* Wishlist */}
+            <button aria-label={`Wishlist (${wishlistCount})`} onClick={openWishlist} className={getIBClass()}>
+              <FiHeart size={17} />
+              {wishlistCount > 0 && (
+                <motion.span key={wishlistCount} initial={{ scale: 0.4 }} animate={{ scale: 1 }}
+                  className="absolute top-0.5 right-0.5 bg-primary text-white rounded-full flex items-center justify-center font-bold tabular-nums"
+                  style={{ width: 17, height: 17, fontSize: 9, boxShadow: "0 0 0 2px var(--color-surface)" }}>
+                  {wishlistCount}
+                </motion.span>
               )}
-            </AnimatePresence>
-          </div>
+            </button>
 
-          {/* Mobile hamburger */}
+            {/* Cart */}
+            <button aria-label={`Cart (${cartCount})`} onClick={openCart} className={getIBClass()}>
+              <FiShoppingBag size={17} />
+              {cartCount > 0 && (
+                <motion.span key={cartCount} initial={{ scale: 0.4 }} animate={{ scale: 1 }}
+                  className="absolute top-0.5 right-0.5 bg-primary text-white rounded-full flex items-center justify-center font-bold tabular-nums"
+                  style={{ width: 17, height: 17, fontSize: 9, boxShadow: "0 0 0 2px var(--color-surface)" }}>
+                  {cartCount}
+                </motion.span>
+              )}
+            </button>
+
+            {/* Profile dropdown */}
+            <div className="relative hidden sm:block">
+              <button aria-label="Account"
+                onClick={() => { setProfileOpen((v) => !v); setSearchOpen(false); }}
+                className={getIBClass(profileOpen)}>
+                <FiUser size={17} />
+              </button>
+              <AnimatePresence>
+                {profileOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                    transition={{ duration: 0.18, ease }}
+                    className="absolute right-0 top-full bg-surface border border-line/60 flex flex-col p-1.5 z-50"
+                    style={{ marginTop: 10, width: 204, borderRadius: 18,
+                      boxShadow: "0 12px 40px -10px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.06)" }}>
+                    {[
+                      { l: "My Dashboard", path: "/account" },
+                      { l: "My Profile", path: "/account/profile" },
+                      { l: "My Orders", path: "/account/orders" },
+                    ].map(({ l, path }) => (
+                      <Link
+                        key={l}
+                        to={path}
+                        onClick={() => setProfileOpen(false)}
+                        className="text-left flex items-center gap-2.5 rounded-[13px] px-3.5 py-2.5 hover:bg-surface/50 hover:text-primary transition-colors duration-200"
+                        style={{
+                          fontSize: 12.5,
+                          color: "var(--color-text-secondary)",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {l}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Mobile hamburger */}
+            <button aria-label="Open menu" onClick={() => setDrawerOpen(true)} className={`${getIBClass()} lg:hidden`}>
+              <FiMenu size={19} />
+            </button>
+          </div>
+        </div>
+
+        {/* ── Search takeover — lives inside the same pill ── */}
+        <div
+          className="absolute inset-0 flex items-center px-[clamp(16px,3vw,32px)] transition-all duration-300"
+          style={{
+            opacity: searchOpen ? 1 : 0,
+            transform: searchOpen ? "scale(1)" : "scale(1.03)",
+            pointerEvents: searchOpen ? "auto" : "none",
+          }}
+        >
+          {/* Search icon inside input area */}
+          <FiSearch
+            size={16}
+            className="shrink-0 mr-3"
+            style={{ color: scrolled ? "var(--color-primary)" : "rgba(255,255,255,0.7)" }}
+          />
+
+          {/* Input */}
+          <label htmlFor="navbar-search" className="sr-only">Search</label>
+          <input
+            id="navbar-search"
+            ref={searchRef}
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search products, brands, categories…"
+            className="flex-1 min-w-0 bg-transparent focus:outline-none font-medium text-base"
+            style={{
+              color: scrolled ? "var(--color-text-primary)" : "#fff",
+              caretColor: "var(--color-primary)",
+              letterSpacing: "-0.01em",
+            }}
+            onFocus={(e) => { if (searchOpen) { /* already focused */ } }}
+          />
+
+          {/* Close button */}
           <button
-            aria-label="Open menu"
-            onClick={() => setDrawerOpen(true)}
-            className={`${getIBClass()} lg:hidden`}
+            onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
+            aria-label="Close search"
+            className="shrink-0 ml-3 flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200 hover:scale-110"
+            style={{
+              background: scrolled ? "rgba(124,58,237,0.10)" : "rgba(255,255,255,0.12)",
+              color: scrolled ? "var(--color-primary)" : "rgba(255,255,255,0.85)",
+            }}
           >
-            <FiMenu size={19} />
+            <FiX size={16} />
           </button>
         </div>
+
+        {/* Search Results Dropdown (Desktop) */}
+        <AnimatePresence>
+          {searchOpen && searchQuery.trim().length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute top-full left-0 right-0 mt-4 bg-surface backdrop-blur-xl border border-line/60 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.2)] overflow-hidden z-[100] flex flex-col max-h-[60vh] overflow-y-auto"
+            >
+              {filteredProducts.map(product => (
+                  <Link
+                    key={product.id}
+                    to={`/products/${product.slug || product.id}`}
+                    onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
+                    className="flex items-center gap-4 p-4 hover:bg-secondary/50 transition-colors border-b border-line/50 last:border-0"
+                  >
+                    <img src={product.image} alt={product.name} className="w-12 h-12 object-cover rounded-xl bg-secondary" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-ink font-medium text-sm truncate">{product.name}</p>
+                      <p className="text-muted text-xs capitalize truncate">{product.brand || product.category}</p>
+                    </div>
+                    <span className="text-primary font-semibold text-sm">${product.price}</span>
+                  </Link>
+                ))}
+              {filteredProducts.length === 0 && (
+                <div className="p-8 text-center text-muted">No products found for "{searchQuery}"</div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </Container>
         </div>{/* end pill */}
       </header>
 
-      {/* ════ Search bar ══════════════════════════════ */}
-      <AnimatePresence>
-        {searchOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease }}
-            className="overflow-hidden bg-surface/96 backdrop-blur-xl border-t border-line/50"
-          >
-            <Container className="py-4">
-              <div className="flex items-center gap-3 bg-section border border-line/60 rounded-pill px-6 py-3.5 max-w-2xl mx-auto transition-shadow duration-300 focus-within:shadow-[0_0_0_3px_var(--color-primary)1A] focus-within:border-primary/50">
-                <FiSearch size={15} className="text-muted shrink-0" />
-                <label htmlFor="site-search" className="sr-only">
-                  Search
-                </label>
-                <input
-                  id="site-search"
-                  ref={searchRef}
-                  autoFocus
-                  type="search"
-                  placeholder="Search gifts, flowers, hampers…"
-                  className="flex-1 bg-transparent focus:outline-none placeholder:text-muted/55 text-ink"
-                  style={{ fontSize: 14 }}
-                />
-                <button
-                  onClick={() => setSearchOpen(false)}
-                  aria-label="Close search"
-                  className="text-ink/35 hover:text-primary transition-colors p-1"
-                >
-                  <FiX size={18} />
-                </button>
-              </div>
-            </Container>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* ════ Mobile nav drawer ══════════════════════ */}
       <AnimatePresence>
@@ -694,9 +602,7 @@ export default function Navbar() {
               style={{ boxShadow: "-20px 0 60px rgba(0,0,0,0.10)" }}
             >
               <div className="flex items-center justify-between px-6 py-5 border-b border-line shrink-0">
-                <span className="font-serif italic text-[22px] text-ink">
-                  Luxora
-                </span>
+                <span className="font-serif italic text-[22px] text-ink">Luxora Market</span>
                 <button
                   onClick={() => setDrawerOpen(false)}
                   className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-secondary text-ink/50 hover:text-primary transition-all duration-250"
@@ -711,14 +617,43 @@ export default function Navbar() {
                   <FiSearch size={14} className="text-muted shrink-0" />
                   <input
                     type="search"
-                    placeholder="Search gifts…"
-                    className="flex-1 bg-transparent focus:outline-none placeholder:text-muted/55"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search products…"
+                    className="flex-1 min-w-0 bg-transparent focus:outline-none placeholder:text-muted/55 text-ink"
                     style={{ fontSize: 13 }}
                   />
+                  {searchQuery && (
+                    <button onClick={() => setSearchQuery("")} className="text-muted hover:text-ink">
+                      <FiX size={14} />
+                    </button>
+                  )}
                 </div>
               </div>
 
-              <nav className="flex-1 px-4 py-3">
+              {searchQuery.trim().length > 0 ? (
+                <div className="flex-1 overflow-y-auto px-4 py-2">
+                  {filteredProducts.map(product => (
+                      <Link
+                        key={product.id}
+                        to={`/products/${product.slug || product.id}`}
+                        onClick={() => { setDrawerOpen(false); setSearchQuery(""); }}
+                        className="flex items-center gap-4 p-3 hover:bg-secondary/50 transition-colors border-b border-line/50 last:border-0 rounded-xl"
+                      >
+                        <img src={product.image} alt={product.name} className="w-12 h-12 object-cover rounded-xl bg-secondary shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-ink font-medium text-sm truncate">{product.name}</p>
+                          <p className="text-muted text-xs capitalize truncate">{product.brand || product.category}</p>
+                        </div>
+                        <span className="text-primary font-semibold text-sm shrink-0">${product.price}</span>
+                      </Link>
+                    ))}
+                  {filteredProducts.length === 0 && (
+                    <div className="p-8 text-center text-muted text-sm">No products found for "{searchQuery}"</div>
+                  )}
+                </div>
+              ) : (
+                <nav className="flex-1 px-4 py-3">
                 {navLinks.map((link) => (
                   <div
                     key={link.label}
@@ -814,6 +749,7 @@ export default function Navbar() {
                   </div>
                 ))}
               </nav>
+              )}
 
               <div className="px-6 py-5 border-t border-line bg-surface/50/70 shrink-0 flex items-center gap-4">
                 <button
@@ -1044,8 +980,20 @@ function CartItem({ item, onRemove, onQty }) {
 
 /* ─── Wishlist item row ─────────────────────────── */
 function WishlistItem({ item, onRemove }) {
+  const { addItem } = useCart();
+  const [justAdded, setJustAdded] = useState(false);
+
+  const handleAdd = () => {
+    addItem(item);
+    setJustAdded(true);
+    setTimeout(() => {
+      setJustAdded(false);
+      onRemove(); 
+    }, 600);
+  };
+
   return (
-    <div className="flex gap-4 py-4 border-b border-line/50 last:border-0">
+    <div className="flex gap-4 py-4 border-b border-line/50 last:border-0 items-center">
       <div
         className="rounded-[14px] overflow-hidden shrink-0 bg-secondary"
         style={{ width: 74, height: 74 }}
@@ -1071,14 +1019,36 @@ function WishlistItem({ item, onRemove }) {
           ${item.price}
         </p>
       </div>
-      <button
-        onClick={onRemove}
-        aria-label={`Remove ${item.name}`}
-        className="text-ink/28 hover:text-primary transition-colors self-start mt-1"
-        style={{ fontSize: 13 }}
-      >
-        <FiTrash2 />
-      </button>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={handleAdd}
+          aria-label={`Add ${item.name} to bag`}
+          className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${
+            justAdded ? "bg-success text-white" : "bg-primary/10 text-primary hover:bg-primary hover:text-white"
+          }`}
+          style={{ fontSize: 13 }}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {justAdded ? (
+              <motion.span key="c" initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                <FiCheck />
+              </motion.span>
+            ) : (
+              <motion.span key="b" initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                <FiShoppingBag />
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </button>
+        <button
+          onClick={onRemove}
+          aria-label={`Remove ${item.name}`}
+          className="text-ink/28 hover:text-error transition-colors"
+          style={{ fontSize: 14 }}
+        >
+          <FiTrash2 />
+        </button>
+      </div>
     </div>
   );
 }
