@@ -140,7 +140,7 @@ export default function Footer() {
         {/* ── Bottom bar ── */}
         <div className="flex flex-col sm:flex-row items-center justify-between pt-8" style={{ gap: 16 }}>
           <p style={{ fontSize: 11.5, color: "var(--color-text-muted)", fontWeight: 300 }}>
-            © {new Date().getFullYear()} Luxora Market. All rights reserved.
+            © {new Date().getFullYear()} Luxora Market. {"footer.rights"}
           </p>
           <div className="flex flex-wrap items-center justify-center" style={{ gap: 8 }}>
             {PAYMENTS.map((m) => (

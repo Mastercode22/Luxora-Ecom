@@ -1,19 +1,34 @@
 import { Outlet } from "react-router-dom";
 import Container from "../components/ui/Container";
-import Sidebar from "../components/dashboard/Sidebar";
+import Sidebar from "../components/account/Sidebar";
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function DashboardLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-surface">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated || !user) {
+    return <Navigate to="/auth" replace />;
+  }
 
   return (
     <div className="pt-[110px] pb-24 min-h-screen">
       <Container>
         {/* Mobile menu toggle */}
         <div className="lg:hidden flex items-center justify-between mb-6 bg-surface/50 backdrop-blur-md border border-line/60 p-4 rounded-2xl">
-          <h1 className="font-serif italic text-xl text-ink">My Account</h1>
+          <h1 className="font-serif italic text-xl text-ink">{"My Account"}</h1>
           <button
             onClick={() => setMobileMenuOpen(true)}
             className="w-10 h-10 flex items-center justify-center rounded-full bg-secondary/50 text-ink hover:bg-secondary transition-colors"
@@ -48,7 +63,7 @@ export default function DashboardLayout() {
                 >
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-8">
-                      <h2 className="font-serif italic text-2xl text-ink">Menu</h2>
+                      <h2 className="font-serif italic text-2xl text-ink">{"Menu"}</h2>
                       <button
                         onClick={() => setMobileMenuOpen(false)}
                         className="p-2 text-ink/70 hover:text-ink"

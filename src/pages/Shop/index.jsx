@@ -7,20 +7,19 @@ import ShopToolbar from "./ShopToolbar";
 import ShopFilters from "./ShopFilters";
 import ShopProductGrid from "./ShopProductGrid";
 import QuickViewModal from "./QuickViewModal";
-
 const ITEMS_PER_PAGE = 24;
-
 export default function Shop() {
-  // Persistence via Local Storage
+  
+// Persistence via Local Storage
   const [viewMode, setViewMode] = useLocalStorage("luxora_view_mode", "grid"); // "grid", "compact", "list"
   const [filters, setFilters] = useLocalStorage("luxora_filters", {
     categories: [],
     brands: [],
     priceRange: [0, 5000],
-    badges: [],
+    badges: []
   });
   const [sortBy, setSortBy] = useLocalStorage("luxora_sort", "featured");
-  
+
   // Ephemeral State
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
@@ -39,12 +38,7 @@ export default function Shop() {
     // Search
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
-      result = result.filter(p => 
-        p.name.toLowerCase().includes(q) || 
-        p.brand.toLowerCase().includes(q) || 
-        p.category.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q)
-      );
+      result = result.filter(p => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
     }
 
     // Categories
@@ -81,7 +75,7 @@ export default function Shop() {
         break;
       case "newest":
         // Fallback to ID sorting or badge if no date exists
-        result.sort((a, b) => (a.badge === "New" ? -1 : 1));
+        result.sort((a, b) => a.badge === "New" ? -1 : 1);
         break;
       case "a-z":
         result.sort((a, b) => a.name.localeCompare(b.name));
@@ -94,77 +88,36 @@ export default function Shop() {
         // Assume default array order is featured
         break;
     }
-
     return result;
   }, [searchQuery, filters, sortBy]);
-
   const visibleProducts = filteredProducts.slice(0, visibleCount);
-
-  return (
-    <div className="min-h-screen pb-24 pt-[100px]">
+  return <div className="min-h-screen pb-24 pt-[100px]">
       <ShopHero count={filteredProducts.length} />
       
       <Container>
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 mt-8">
           {/* Desktop Sidebar */}
           <div className="hidden lg:block w-72 shrink-0">
-            <ShopFilters 
-              filters={filters} 
-              setFilters={setFilters} 
-              products={allProducts} 
-            />
+            <ShopFilters filters={filters} setFilters={setFilters} products={allProducts} />
           </div>
 
           {/* Main Content Area */}
           <div className="flex-1 min-w-0">
-            <ShopToolbar 
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              viewMode={viewMode}
-              setViewMode={setViewMode}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              onOpenMobileDrawer={() => setMobileDrawerOpen(true)}
-              resultsCount={filteredProducts.length}
-            />
+            <ShopToolbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} viewMode={viewMode} setViewMode={setViewMode} sortBy={sortBy} setSortBy={setSortBy} onOpenMobileDrawer={() => setMobileDrawerOpen(true)} resultsCount={filteredProducts.length} />
 
-            <ShopProductGrid 
-              products={visibleProducts}
-              viewMode={viewMode}
-              onQuickView={setQuickViewProduct}
-            />
+            <ShopProductGrid products={visibleProducts} viewMode={viewMode} onQuickView={setQuickViewProduct} />
 
-            {visibleCount < filteredProducts.length && (
-              <div className="mt-12 flex justify-center">
-                <button 
-                  onClick={() => setVisibleCount(v => v + ITEMS_PER_PAGE)}
-                  className="px-8 py-3 bg-secondary/50 hover:bg-secondary text-ink rounded-xl font-medium transition-colors"
-                >
-                  Load More Products
-                </button>
-              </div>
-            )}
+            {visibleCount < filteredProducts.length && <div className="mt-12 flex justify-center">
+                <button onClick={() => setVisibleCount(v => v + ITEMS_PER_PAGE)} className="px-8 py-3 bg-secondary/50 hover:bg-secondary text-ink rounded-xl font-medium transition-colors">Load More Produ</button>
+              </div>}
           </div>
         </div>
       </Container>
 
       {/* Mobile Filters Drawer */}
-      <ShopFilters 
-        filters={filters} 
-        setFilters={setFilters} 
-        products={allProducts} 
-        isMobileDrawer
-        isOpen={mobileDrawerOpen}
-        onClose={() => setMobileDrawerOpen(false)}
-      />
+      <ShopFilters filters={filters} setFilters={setFilters} products={allProducts} isMobileDrawer isOpen={mobileDrawerOpen} onClose={() => setMobileDrawerOpen(false)} />
 
       {/* Quick View Modal */}
-      {quickViewProduct && (
-        <QuickViewModal 
-          product={quickViewProduct} 
-          onClose={() => setQuickViewProduct(null)} 
-        />
-      )}
-    </div>
-  );
+      {quickViewProduct && <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />}
+    </div>;
 }

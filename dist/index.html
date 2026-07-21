@@ -2,8 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/LuxoraGift-ReactApp/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+
+    <script>
+      // Disable two-finger touch gestures (pinch-zoom & multi-finger panning/scrolling)
+      document.addEventListener('touchstart', function (e) {
+        if (e.touches && e.touches.length > 1) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      document.addEventListener('touchmove', function (e) {
+        if (e.touches && e.touches.length > 1) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      // Disable iOS Safari gesture zoom
+      document.addEventListener('gesturestart', function (e) {
+        e.preventDefault();
+      }, { passive: false });
+
+      document.addEventListener('gesturechange', function (e) {
+        e.preventDefault();
+      }, { passive: false });
+
+      document.addEventListener('gestureend', function (e) {
+        e.preventDefault();
+      }, { passive: false });
+    </script>
 
     <title>Luxora Gifts — Luxury Flowers, Hampers & Gifting</title>
     <meta
@@ -26,8 +54,8 @@
       name="twitter:description"
       content="Premium, hand-finished flowers, hampers and keepsakes for every occasion."
     />
-    <script type="module" crossorigin src="/assets/index-Yw9F55SK.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BGe8I0Um.css">
+    <script type="module" crossorigin src="/LuxoraGift-ReactApp/assets/index-C_WUYTQ_.js"></script>
+    <link rel="stylesheet" crossorigin href="/LuxoraGift-ReactApp/assets/index-_T2RHILs.css">
   </head>
   <body>
     <div id="root"></div>

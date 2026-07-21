@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FiSearch,
   FiHeart,
@@ -22,6 +22,7 @@ import Container from "../ui/Container";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { useTheme } from "../../context/ThemeContext";
+import { useAuth } from "../../context/AuthContext";
 import { products } from "../../data/products";
 
 const ease = [0.22, 1, 0.36, 1];
@@ -96,10 +97,6 @@ const navLinks = [
     ],
   },
   { label: "Beauty",      href: "/products/chanel-bleu-de-chanel" },
-  { label: "Home & Living", href: "/products/arc-floor-lamp" },
-  { label: "Sports",      href: "/products/elite-fitness-bundle" },
-  { label: "New Arrivals", href: "/products/apple-watch-ultra-2" },
-  { label: "Deals",       href: "/products/sony-wh1000xm5-headphones" },
 ];
 
 const MEGA_FEATURED = {
@@ -204,6 +201,24 @@ export default function Navbar() {
   } = useWishlist();
 
   const { theme, toggleTheme } = useTheme();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
+
+  const isHome = location.pathname === "/";
+  const isDarkHeader = isHome && !scrolled && theme === "dark";
+
+  const getIBClass = (isOpen = false) => {
+    if (!isDarkHeader) {
+      return `relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 ${
+        isOpen ? "bg-secondary text-primary" : "text-ink/65 hover:bg-secondary hover:text-primary"
+      }`;
+    } else {
+      return `relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 ${
+        isOpen ? "bg-white/15 text-white" : "text-white/80 hover:bg-white/15 hover:text-white"
+      }`;
+    }
+  };
 
   /* Scroll listener */
   useEffect(() => {
@@ -255,17 +270,7 @@ export default function Navbar() {
 
 
 
-  const getIBClass = (isOpen = false) => {
-    if (scrolled) {
-      return `relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 ${
-        isOpen ? "bg-secondary text-primary" : "text-ink/65 hover:bg-secondary hover:text-primary"
-      }`;
-    } else {
-      return `relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 ${
-        isOpen ? "bg-white/15 text-white" : "text-white/80 hover:bg-white/15 hover:text-white"
-      }`;
-    }
-  };
+
 
   const filteredProducts = searchQuery.trim() 
     ? products.filter(p => {
@@ -289,19 +294,19 @@ export default function Navbar() {
             maxWidth: "1200px",
             borderRadius: "9999px",
             // Premium gradient glassmorphism background
-            background: scrolled
-              ? "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(233,30,99,0.10) 40%, rgba(180,120,255,0.10) 70%, rgba(201,164,74,0.12) 100%)"
-              : "linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(233,30,99,0.07) 40%, rgba(180,120,255,0.07) 70%, rgba(201,164,74,0.08) 100%)",
+            background: isDarkHeader
+              ? "linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(233,30,99,0.07) 40%, rgba(180,120,255,0.07) 70%, rgba(201,164,74,0.08) 100%)"
+              : "var(--color-surface)",
             backdropFilter: "blur(20px) saturate(1.8)",
             WebkitBackdropFilter: "blur(20px) saturate(1.8)",
             // Gradient border
             border: "1px solid",
-            borderColor: scrolled
-              ? "rgba(233,30,99,0.25)"
-              : "rgba(255,255,255,0.18)",
-            boxShadow: scrolled
-              ? "0 8px 32px -8px rgba(233,30,99,0.20), 0 24px 48px -16px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.25)"
-              : "0 4px 24px -8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.15)",
+            borderColor: isDarkHeader
+              ? "rgba(255,255,255,0.18)"
+              : "var(--color-border)",
+            boxShadow: isDarkHeader
+              ? "0 4px 24px -8px rgba(0,0,0,0.10)"
+              : "0 8px 32px -8px rgba(0,0,0,0.12)",
           }}
         >
       {/* ════ Main row — relative wrapper holds both states ════ */}
@@ -325,7 +330,7 @@ export default function Navbar() {
             className="relative flex items-end gap-1.5 shrink-0 group"
           >
             <span
-              className={`font-serif italic group-hover:text-primary transition-colors duration-350 ${scrolled ? "text-ink" : "text-white"}`}
+              className={`font-serif italic group-hover:text-primary transition-colors duration-350 ${isDarkHeader ? "text-white" : "text-ink"}`}
               style={{ fontSize: "clamp(22px, 2.8vw, 28px)", lineHeight: 1, letterSpacing: "-0.01em" }}
             >
               Luxora
@@ -357,7 +362,7 @@ export default function Navbar() {
                 onMouseLeave={() => link.mega && leaveMega()}>
                 <Link to={link.href}
                   className={`relative flex items-center gap-1 py-2 font-medium transition-colors duration-250 ${
-                    scrolled ? "text-ink hover:text-primary" : "text-white/85 hover:text-white"
+                    isDarkHeader ? "text-white/85 hover:text-white" : "text-ink hover:text-primary"
                   }`}>
                   {link.label}
                   {link.mega && (
@@ -482,11 +487,15 @@ export default function Navbar() {
             </button>
 
             {/* Profile dropdown */}
-            <div className="relative hidden sm:block">
+            <div className="relative">
               <button aria-label="Account"
                 onClick={() => { setProfileOpen((v) => !v); setSearchOpen(false); }}
                 className={getIBClass(profileOpen)}>
-                <FiUser size={17} />
+                {user?.profile?.avatar ? (
+                  <img src={user.profile.avatar} alt="Avatar" className="w-5 h-5 rounded-full object-cover border border-primary/30" />
+                ) : (
+                  <FiUser size={17} />
+                )}
               </button>
               <AnimatePresence>
                 {profileOpen && (
@@ -795,12 +804,19 @@ export default function Navbar() {
                   <FiHeart size={14} /> Wishlist{" "}
                   {wishlistCount > 0 && `(${wishlistCount})`}
                 </button>
-                <button
-                  className="flex items-center gap-2 hover:text-primary transition-colors ml-auto"
+                <Link
+                  to={isAuthenticated && user ? "/account" : "/auth"}
+                  onClick={() => setDrawerOpen(false)}
+                  className="flex items-center gap-2 hover:text-primary transition-colors ml-auto font-medium"
                   style={{ fontSize: 12.5, color: "var(--color-text-secondary)" }}
                 >
-                  <FiUser size={14} /> Sign In
-                </button>
+                  {user?.profile?.avatar ? (
+                    <img src={user.profile.avatar} alt="Avatar" className="w-4 h-4 rounded-full object-cover border border-primary/30" />
+                  ) : (
+                    <FiUser size={14} />
+                  )}
+                  {isAuthenticated && user ? (user.profile?.fullName?.split(" ")[0] || "Account") : "Sign In"}
+                </Link>
               </div>
             </motion.aside>
           </>
@@ -845,7 +861,15 @@ export default function Navbar() {
               <p style={{ fontSize: 11, color: "var(--color-text-muted)" }}>
                 Shipping & taxes calculated at checkout
               </p>
-              <button className="btn-primary w-full">Checkout</button>
+              <button
+                onClick={() => {
+                  closeCart();
+                  navigate("/checkout");
+                }}
+                className="btn-primary w-full flex items-center justify-center gap-2 py-3.5"
+              >
+                Proceed to Checkout <FiArrowRight size={16} />
+              </button>
             </div>
           )
         }

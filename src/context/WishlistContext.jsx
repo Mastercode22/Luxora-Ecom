@@ -1,10 +1,50 @@
-import { createContext, useContext, useMemo, useState, useCallback } from "react";
+import { createContext, useContext, useMemo, useState, useCallback, useEffect } from "react";
+import { storageService } from "../services/storageService";
+import { useAuth } from "./AuthContext";
+import { authService } from "../services/authService";
 
 const WishlistContext = createContext(null);
 
 export function WishlistProvider({ children }) {
-  const [items, setItems] = useState([]); // [{ id, name, price, image }]
+  const { user, isAuthenticated, refreshUser } = useAuth();
+
+  const [items, setItems] = useState(() => {
+    return storageService.get("luxora_guest_wishlist") || [];
+  });
+  
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const guestWish = storageService.get("luxora_guest_wishlist") || [];
+      if (guestWish.length > 0) {
+        let merged = [...(user.wishlist || [])];
+        guestWish.forEach(gItem => {
+          if (!merged.find(i => i.id === gItem.id)) {
+            merged.push(gItem);
+          }
+        });
+        authService.updateUser({ ...user, wishlist: merged });
+        refreshUser();
+        storageService.remove("luxora_guest_wishlist");
+        setItems(merged);
+      } else {
+        setItems(user.wishlist || []);
+      }
+    } else {
+      setItems(storageService.get("luxora_guest_wishlist") || []);
+    }
+  }, [isAuthenticated, user?.id]);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (JSON.stringify(user.wishlist) !== JSON.stringify(items)) {
+         authService.updateUser({ ...user, wishlist: items });
+      }
+    } else {
+      storageService.set("luxora_guest_wishlist", items);
+    }
+  }, [items, isAuthenticated, user]);
 
   const toggle = useCallback((product) => {
     setItems((prev) => {

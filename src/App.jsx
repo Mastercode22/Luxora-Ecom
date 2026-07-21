@@ -1,28 +1,37 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/layout/Navbar";
-import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
+import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { WishlistProvider } from "./context/WishlistContext";
-import { UserProvider } from "./context/UserContext";
+
+import { DashboardProviders } from "./context/DashboardProviders";
 import Product from "./pages/Product";
 import Shop from "./pages/Shop";
 import DashboardLayout from "./pages/DashboardLayout";
-import Overview from "./components/dashboard/Overview";
-import ProfileSettings from "./components/dashboard/ProfileSettings";
-import AddressManagement from "./components/dashboard/AddressManagement";
-import OrderHistory from "./components/dashboard/OrderHistory";
-import PaymentMethods from "./components/dashboard/PaymentMethods";
-import NotificationsTab from "./components/dashboard/NotificationsTab";
-import SecuritySettings from "./components/dashboard/SecuritySettings";
-import ReviewsTab from "./components/dashboard/ReviewsTab";
-import RewardsTab from "./components/dashboard/RewardsTab";
-import PreferencesTab from "./components/dashboard/PreferencesTab";
-import RecentlyViewedTab from "./components/dashboard/RecentlyViewedTab";
-import WishlistTab from "./components/dashboard/WishlistTab";
+import Dashboard from "./pages/account/Dashboard";
+import Profile from "./pages/account/Profile";
+import Addresses from "./pages/account/Addresses";
+import Orders from "./pages/account/Orders";
+import Payments from "./pages/account/Payments";
+import Notifications from "./pages/account/Notifications";
+import Security from "./pages/account/Security";
+import Reviews from "./pages/account/Reviews";
+import Rewards from "./pages/account/Rewards";
+import Preferences from "./pages/account/Preferences";
+import RecentlyViewed from "./pages/account/RecentlyViewed";
+import Wishlist from "./pages/account/Wishlist";
+import Cart from "./pages/account/Cart";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import GlobalBackground from "./components/ui/GlobalBackground";
+import Layout from "./components/layout/Layout";
+
+// New Pages
+import About from "./pages/About";
+import Help from "./pages/Help";
+import Contact from "./pages/Contact";
+import Auth from "./pages/Auth";
+import Checkout from "./pages/Checkout";
+import SuccessPage from "./pages/SuccessPage";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -47,41 +56,45 @@ function ScrollToTop() {
 function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <CartProvider>
-        <WishlistProvider>
-          <UserProvider>
-            <ScrollToTop />
-            <div className="flex flex-col min-h-screen bg-surface overflow-x-hidden w-full relative z-0">
-              <Navbar />
-              <main className="flex-1 relative z-10 w-full max-w-[100vw]">
-                <GlobalBackground />
+      <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <DashboardProviders>
+              <ScrollToTop />
+              <Layout>
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/shop" element={<Shop />} />
-                  <Route path="/products/:slug" element={<Product />} />
-                  
-                  {/* Dashboard Routes */}
-                  <Route path="/account" element={<DashboardLayout />}>
-                    <Route index element={<Overview />} />
-                    <Route path="profile" element={<ProfileSettings />} />
-                    <Route path="orders" element={<OrderHistory />} />
-                    <Route path="wishlist" element={<WishlistTab />} />
-                    <Route path="addresses" element={<AddressManagement />} />
-                    <Route path="payments" element={<PaymentMethods />} />
-                    <Route path="notifications" element={<NotificationsTab />} />
-                    <Route path="security" element={<SecuritySettings />} />
-                    <Route path="reviews" element={<ReviewsTab />} />
-                    <Route path="recent" element={<RecentlyViewedTab />} />
-                    <Route path="rewards" element={<RewardsTab />} />
-                    <Route path="preferences" element={<PreferencesTab />} />
-                  </Route>
-                </Routes>
-              </main>
-              <Footer />
-            </div>
-          </UserProvider>
-        </WishlistProvider>
-      </CartProvider>
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/products/:slug" element={<Product />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/success" element={<SuccessPage />} />
+                
+                {/* Dashboard Routes */}
+                <Route path="/account" element={<DashboardLayout />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="orders" element={<Orders />} />
+                  <Route path="wishlist" element={<Wishlist />} />
+                  <Route path="cart" element={<Cart />} />
+                  <Route path="addresses" element={<Addresses />} />
+                  <Route path="payments" element={<Payments />} />
+                  <Route path="notifications" element={<Notifications />} />
+                  <Route path="security" element={<Security />} />
+                  <Route path="reviews" element={<Reviews />} />
+                  <Route path="recent" element={<RecentlyViewed />} />
+                  <Route path="rewards" element={<Rewards />} />
+                  <Route path="preferences" element={<Preferences />} />
+                </Route>
+              </Routes>
+              </Layout>
+            </DashboardProviders>
+          </WishlistProvider>
+        </CartProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
