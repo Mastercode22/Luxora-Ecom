@@ -2,6 +2,11 @@
 
 Luxora Market is a premium, high-performance e-commerce web application built with modern React. It focuses on delivering a visually stunning, deeply interactive, and buttery-smooth user experience across all devices.
 
+
+
+<img width="1354" height="2544" alt="image" src="https://github.com/user-attachments/assets/859e456a-2ca9-47b3-857e-4ec89a827277" />
+
+
 ## 🚀 Tech Stack
 
 - **Framework:** React 18 + Vite
@@ -69,3 +74,4 @@ src/
    ```
 
 *Note: The project is configured with a custom base path (`/LuxoraGift-ReactApp/`) in `vite.config.js` for deployment purposes. All static assets in the `public` folder correctly utilize Vite's `BASE_URL` to ensure they resolve across environments.*
+
