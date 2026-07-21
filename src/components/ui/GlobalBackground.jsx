@@ -54,7 +54,7 @@ export default function GlobalBackground() {
       <motion.div
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
         style={{
-          opacity: theme === 'dark' ? 0.35 : 0.15,
+          opacity: theme === 'dark' ? 0.12 : 0.05,
           filter: theme === 'dark' ? 'drop-shadow(0 0 40px rgba(124,58,237,0.4))' : 'drop-shadow(0 0 40px rgba(0,0,0,0.15))'
         }}
         animate={{

@@ -321,7 +321,7 @@ export default function Product() {
             {/* Actions Row */}
             <div className="flex flex-wrap items-center gap-4 mt-6 mb-12">
               {/* Quantity */}
-              <div className="flex items-center justify-between bg-surface rounded-[20px] px-3 border border-white/10" style={{ height: 64, width: 140 }}>
+              <div className="flex items-center justify-between bg-surface rounded-[20px] px-3 border border-line/10" style={{ height: 64, width: 140 }}>
                 <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-12 h-12 flex items-center justify-center text-ink/60 hover:text-primary transition-colors hover:scale-110 active:scale-95">
                   <FiMinus size={16} />
                 </button>
@@ -335,7 +335,7 @@ export default function Product() {
               <button 
                 onClick={handleAddToCart}
                 className={`hidden md:flex flex-1 relative overflow-hidden items-center justify-center gap-3 h-[64px] rounded-[20px] transition-all duration-500 uppercase font-bold tracking-[0.15em] text-[13px] group ${
-                  justAdded ? "bg-success text-white shadow-[0_12px_32px_rgba(0,200,83,0.35)]" : "bg-primary text-section hover:-translate-y-1 shadow-[0_12px_32px_rgba(255,203,116,0.25)]"
+                  justAdded ? "bg-success text-ink shadow-[0_12px_32px_rgba(0,200,83,0.35)]" : "bg-primary text-section hover:-translate-y-1 shadow-[0_12px_32px_rgba(255,203,116,0.25)]"
                 }`}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmerSlide" />
@@ -352,7 +352,7 @@ export default function Product() {
                 onClick={() => toggle(product)}
                 whileTap={{ scale: 0.9 }}
                 className={`w-[64px] h-[64px] flex items-center justify-center rounded-[20px] transition-all duration-400 shadow-sm ${
-                  liked ? "bg-primary text-section shadow-[0_8px_24px_rgba(255,203,116,0.3)]" : "bg-surface border border-white/10 text-ink/50 hover:border-primary hover:text-primary"
+                  liked ? "bg-primary text-section shadow-[0_8px_24px_rgba(255,203,116,0.3)]" : "bg-surface border border-line/10 text-ink/50 hover:border-primary hover:text-primary"
                 }`}
               >
                 <motion.div animate={liked ? { scale: [1, 1.2, 1] } : {}} transition={{ duration: 0.3 }}>
@@ -364,7 +364,7 @@ export default function Product() {
             {/* Buy Now Full Width */}
             <button 
               onClick={handleBuyNow}
-              className="hidden md:block w-full h-[64px] rounded-[20px] bg-white text-section font-bold uppercase tracking-[0.15em] text-[13px] transition-all duration-400 hover:-translate-y-1 mb-12 shadow-[0_12px_32px_rgba(0,0,0,0.5)]"
+              className="hidden md:block w-full h-[64px] rounded-[20px] bg-surface text-section font-bold uppercase tracking-[0.15em] text-[13px] transition-all duration-400 hover:-translate-y-1 mb-12 shadow-[0_12px_32px_rgba(0,0,0,0.5)]"
             >
               Buy it now
             </button>
@@ -379,7 +379,7 @@ export default function Product() {
               ].map((card, i) => (
                 <div key={i} className="group relative flex items-start gap-4 p-5 rounded-[24px] overflow-hidden transition-transform duration-400 hover:-translate-y-1 cursor-default"
                   style={{ background: "rgba(255,255,255,0.03)", backdropFilter: "blur(12px)", border: "1px solid var(--color-border)" }}>
-                  <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+                  <div className="absolute inset-0 bg-surface/5 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
                   <div className="mt-1 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
                     <card.icon size={18} />
                   </div>
@@ -475,7 +475,7 @@ export default function Product() {
            <button 
               onClick={handleAddToCart}
               className={`flex-1 flex items-center justify-center gap-2 h-[52px] rounded-[16px] transition-all duration-300 uppercase font-bold tracking-widest text-[12px] ${
-                justAdded ? "bg-success text-white" : "bg-primary text-section"
+                justAdded ? "bg-success text-ink" : "bg-primary text-section"
               }`}
               style={{ boxShadow: justAdded ? "0 8px 24px rgba(0,200,83,0.3)" : "0 8px 24px rgba(255,203,116,0.3)" }}
             >

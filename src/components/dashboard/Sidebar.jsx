@@ -34,8 +34,8 @@ export default function Sidebar({ onNavigate }) {
           className="w-12 h-12 rounded-full object-cover border border-primary/30"
         />
         <div>
-          <p className="text-white font-medium">{user.profile.fullName}</p>
-          <p className="text-white/50 text-sm font-sans">{user.rewards.level}</p>
+          <p className="text-ink font-medium">{user.profile.fullName}</p>
+          <p className="text-ink/50 text-sm font-sans">{user.rewards.level}</p>
         </div>
       </div>
 
@@ -51,17 +51,17 @@ export default function Sidebar({ onNavigate }) {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 font-medium group relative overflow-hidden ${
                   isActive
-                    ? "text-white bg-primary shadow-[0_4px_20px_-4px_rgba(233,30,99,0.3)]"
-                    : "text-white/70 hover:text-white hover:bg-secondary/50"
+                    ? "text-ink bg-primary shadow-[0_4px_20px_-4px_rgba(233,30,99,0.3)]"
+                    : "text-ink/70 hover:text-ink hover:bg-secondary/50"
                 }`
               }
             >
               {({ isActive }) => (
                 <>
-                  <Icon size={18} className={isActive ? "text-white" : "text-white/60 group-hover:text-primary transition-colors"} />
+                  <Icon size={18} className={isActive ? "text-ink" : "text-ink/60 group-hover:text-primary transition-colors"} />
                   <span className="relative z-10">{item.label}</span>
                   {isActive && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded-r-full" />
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" />
                   )}
                 </>
               )}

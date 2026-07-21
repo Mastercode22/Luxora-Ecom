@@ -9,8 +9,8 @@ export default function ReviewsTab() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-serif italic text-3xl text-white">My Reviews</h1>
-        <p className="text-white/60 mt-1">Manage the reviews you've written for products.</p>
+        <h1 className="font-serif italic text-3xl text-ink">My Reviews</h1>
+        <p className="text-ink/60 mt-1">Manage the reviews you've written for products.</p>
       </div>
 
       {user.reviews.length > 0 ? (
@@ -32,21 +32,21 @@ export default function ReviewsTab() {
               <div className="flex-1">
                 <div className="flex items-start justify-between gap-4 mb-2">
                   <div>
-                    <h3 className="text-white font-bold text-lg">{review.productName}</h3>
-                    <p className="text-white/40 text-sm">{review.date}</p>
+                    <h3 className="text-ink font-bold text-lg">{review.productName}</h3>
+                    <p className="text-ink/40 text-sm">{review.date}</p>
                   </div>
                   <div className="flex text-primary">
                     {[...Array(5)].map((_, i) => (
-                      <FiStar key={i} className={i < review.rating ? "fill-current" : "text-white/20"} size={14} />
+                      <FiStar key={i} className={i < review.rating ? "fill-current" : "text-ink/20"} size={14} />
                     ))}
                   </div>
                 </div>
-                <p className="text-white/70 text-sm italic">"{review.comment}"</p>
+                <p className="text-ink/70 text-sm italic">"{review.comment}"</p>
               </div>
 
               {/* Actions */}
               <div className="flex md:flex-col gap-3 justify-center md:border-l border-line/30 md:pl-6">
-                <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-secondary/50 hover:bg-secondary text-white rounded-xl text-sm font-medium transition-colors">
+                <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-secondary/50 hover:bg-secondary text-ink rounded-xl text-sm font-medium transition-colors">
                   <FiEdit2 size={14} /> Edit
                 </button>
                 <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-sm font-medium transition-colors">
@@ -58,11 +58,11 @@ export default function ReviewsTab() {
         </div>
       ) : (
         <div className="bg-surface/50 backdrop-blur-md border border-line/60 rounded-3xl p-12 text-center">
-          <div className="w-20 h-20 bg-secondary/50 rounded-full flex items-center justify-center mx-auto mb-4 text-white/30">
+          <div className="w-20 h-20 bg-secondary/50 rounded-full flex items-center justify-center mx-auto mb-4 text-ink/30">
             <FiStar size={32} />
           </div>
-          <h3 className="text-xl text-white font-serif italic mb-2">No Reviews Yet</h3>
-          <p className="text-white/50 max-w-md mx-auto mb-6">You haven't reviewed any products yet. Share your experience with the community!</p>
+          <h3 className="text-xl text-ink font-serif italic mb-2">No Reviews Yet</h3>
+          <p className="text-ink/50 max-w-md mx-auto mb-6">You haven't reviewed any products yet. Share your experience with the community!</p>
           <Link to="/account/orders" className="inline-block px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-xl font-medium transition-colors">
             Review Past Orders
           </Link>

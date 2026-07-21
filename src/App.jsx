@@ -6,6 +6,7 @@ import { CartProvider } from "./context/CartContext";
 import { WishlistProvider } from "./context/WishlistContext";
 import { UserProvider } from "./context/UserContext";
 import Product from "./pages/Product";
+import Shop from "./pages/Shop";
 import DashboardLayout from "./pages/DashboardLayout";
 import Overview from "./components/dashboard/Overview";
 import ProfileSettings from "./components/dashboard/ProfileSettings";
@@ -56,6 +57,7 @@ function App() {
                 <GlobalBackground />
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/shop" element={<Shop />} />
                   <Route path="/products/:slug" element={<Product />} />
                   
                   {/* Dashboard Routes */}

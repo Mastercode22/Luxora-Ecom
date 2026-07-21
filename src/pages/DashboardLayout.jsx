@@ -13,10 +13,10 @@ export default function DashboardLayout() {
       <Container>
         {/* Mobile menu toggle */}
         <div className="lg:hidden flex items-center justify-between mb-6 bg-surface/50 backdrop-blur-md border border-line/60 p-4 rounded-2xl">
-          <h1 className="font-serif italic text-xl text-white">My Account</h1>
+          <h1 className="font-serif italic text-xl text-ink">My Account</h1>
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-secondary/50 text-white hover:bg-secondary transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-secondary/50 text-ink hover:bg-secondary transition-colors"
           >
             <FiMenu size={20} />
           </button>
@@ -48,10 +48,10 @@ export default function DashboardLayout() {
                 >
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-8">
-                      <h2 className="font-serif italic text-2xl text-white">Menu</h2>
+                      <h2 className="font-serif italic text-2xl text-ink">Menu</h2>
                       <button
                         onClick={() => setMobileMenuOpen(false)}
-                        className="p-2 text-white/70 hover:text-white"
+                        className="p-2 text-ink/70 hover:text-ink"
                       >
                         <FiX size={24} />
                       </button>

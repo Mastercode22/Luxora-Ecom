@@ -27,22 +27,38 @@ import { products } from "../../data/products";
 const ease = [0.22, 1, 0.36, 1];
 
 const navLinks = [
-  { label: "Home", href: "/#top" },
+  { label: "Home", href: "/" },
+  { label: "Shop", href: "/shop" },
   {
     label: "Electronics",
     href: "/#shop",
     mega: [
       {
         title: "Audio",
-        items: ["Headphones", "Earbuds", "Speakers", "Soundbars"],
+        items: [
+          { name: "Headphones", href: "/products/sony-wh1000xm5-headphones" },
+          { name: "Earbuds", href: "/products/sony-wh1000xm5-headphones" },
+          { name: "Speakers", href: "/products/sony-wh1000xm5-headphones" },
+          { name: "Soundbars", href: "/products/sony-wh1000xm5-headphones" },
+        ],
       },
       {
         title: "Devices",
-        items: ["Smartphones", "Laptops", "Tablets", "Smart Watches"],
+        items: [
+          { name: "Smartphones", href: "/products/samsung-galaxy-s25-ultra" },
+          { name: "Laptops", href: "/products/samsung-galaxy-s25-ultra" },
+          { name: "Tablets", href: "/products/samsung-galaxy-s25-ultra" },
+          { name: "Smart Watches", href: "/products/apple-watch-ultra-2" },
+        ],
       },
       {
         title: "Gaming",
-        items: ["Gaming Mice", "Keyboards", "Controllers", "Monitors"],
+        items: [
+          { name: "Gaming Mice", href: "/products/logitech-gpro-x-superlight" },
+          { name: "Keyboards", href: "/products/logitech-gpro-x-superlight" },
+          { name: "Controllers", href: "/products/logitech-gpro-x-superlight" },
+          { name: "Monitors", href: "/products/logitech-gpro-x-superlight" },
+        ],
       },
     ],
   },
@@ -52,23 +68,38 @@ const navLinks = [
     mega: [
       {
         title: "Clothing",
-        items: ["Jackets", "Shirts", "Trousers", "Activewear"],
+        items: [
+          { name: "Jackets", href: "/products/designer-bomber-jacket" },
+          { name: "Shirts", href: "/products/designer-bomber-jacket" },
+          { name: "Trousers", href: "/products/designer-bomber-jacket" },
+          { name: "Activewear", href: "/products/elite-fitness-bundle" },
+        ],
       },
       {
         title: "Footwear",
-        items: ["Sneakers", "Boots", "Loafers", "Sandals"],
+        items: [
+          { name: "Sneakers", href: "/products/premium-leather-sneakers" },
+          { name: "Boots", href: "/products/premium-leather-sneakers" },
+          { name: "Loafers", href: "/products/premium-leather-sneakers" },
+          { name: "Sandals", href: "/products/premium-leather-sneakers" },
+        ],
       },
       {
         title: "Bags",
-        items: ["Tote Bags", "Backpacks", "Crossbody", "Clutches"],
+        items: [
+          { name: "Tote Bags", href: "/products/minimalist-leather-tote" },
+          { name: "Backpacks", href: "/products/minimalist-leather-tote" },
+          { name: "Crossbody", href: "/products/minimalist-leather-tote" },
+          { name: "Clutches", href: "/products/minimalist-leather-tote" },
+        ],
       },
     ],
   },
-  { label: "Beauty",      href: "/#shop" },
-  { label: "Home & Living", href: "/#shop" },
-  { label: "Sports",      href: "/#shop" },
-  { label: "New Arrivals", href: "/#shop" },
-  { label: "Deals",       href: "/#deals" },
+  { label: "Beauty",      href: "/products/chanel-bleu-de-chanel" },
+  { label: "Home & Living", href: "/products/arc-floor-lamp" },
+  { label: "Sports",      href: "/products/elite-fitness-bundle" },
+  { label: "New Arrivals", href: "/products/apple-watch-ultra-2" },
+  { label: "Deals",       href: "/products/sony-wh1000xm5-headphones" },
 ];
 
 const MEGA_FEATURED = {
@@ -324,7 +355,7 @@ export default function Navbar() {
               <div key={link.label} className="relative group/link"
                 onMouseEnter={() => link.mega && enterMega(link.label)}
                 onMouseLeave={() => link.mega && leaveMega()}>
-                <a href={link.href}
+                <Link to={link.href}
                   className={`relative flex items-center gap-1 py-2 font-medium transition-colors duration-250 ${
                     scrolled ? "text-ink hover:text-primary" : "text-white/85 hover:text-white"
                   }`}>
@@ -337,7 +368,7 @@ export default function Navbar() {
                   )}
                   <span aria-hidden="true"
                     className="absolute left-1/2 -bottom-0.5 h-[1.5px] w-0 -translate-x-1/2 bg-primary transition-all duration-300 ease-out group-hover/link:w-full" />
-                </a>
+                </Link>
                 {/* Mega menu */}
                 <AnimatePresence>
                   {link.mega && openMega === link.label && (
@@ -365,13 +396,14 @@ export default function Navbar() {
                                 {col.title}
                               </p>
                               {col.items.map((item) => (
-                                <a key={item} href="#"
+                                <Link key={item.name} to={item.href}
+                                  onClick={() => setOpenMega(null)}
                                   className="group/i flex items-center gap-1.5 hover:text-primary transition-colors duration-200"
                                   style={{ fontSize: 12.5, color: "var(--color-text-secondary)" }}>
                                   <FiChevronRight style={{ fontSize: 9, opacity: 0, transition: "opacity 0.2s, transform 0.2s" }}
                                     className="group-hover/i:opacity-100 group-hover/i:translate-x-0.5 text-primary" />
-                                  {item}
-                                </a>
+                                  {item.name}
+                                </Link>
                               ))}
                             </div>
                           ))}
@@ -711,9 +743,9 @@ export default function Navbar() {
                                     {col.title}
                                   </p>
                                   {col.items.map((item) => (
-                                    <a
-                                      key={item}
-                                      href="#"
+                                    <Link
+                                      key={item.name}
+                                      to={item.href}
                                       onClick={() => setDrawerOpen(false)}
                                       className="block py-1.5 hover:text-primary transition-colors"
                                       style={{
@@ -721,8 +753,8 @@ export default function Navbar() {
                                         color: "var(--color-text-muted)",
                                       }}
                                     >
-                                      {item}
-                                    </a>
+                                      {item.name}
+                                    </Link>
                                   ))}
                                 </div>
                               ))}
@@ -731,8 +763,8 @@ export default function Navbar() {
                         </AnimatePresence>
                       </>
                     ) : (
-                      <a
-                        href={link.href}
+                      <Link
+                        to={link.href}
                         onClick={() => setDrawerOpen(false)}
                         className="block px-3 py-4 hover:text-primary transition-colors duration-200"
                         style={{
@@ -744,7 +776,7 @@ export default function Navbar() {
                         }}
                       >
                         {link.label}
-                      </a>
+                      </Link>
                     )}
                   </div>
                 ))}

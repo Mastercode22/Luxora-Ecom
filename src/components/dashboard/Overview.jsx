@@ -19,11 +19,11 @@ export default function Overview() {
         {/* Glow effect */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 blur-[100px] rounded-full pointer-events-none" />
         
-        <h1 className="font-serif italic text-3xl md:text-4xl text-white mb-2 relative z-10">
+        <h1 className="font-serif italic text-3xl md:text-4xl text-ink mb-2 relative z-10">
           Good Evening, <br className="sm:hidden" />
           <span className="text-primary not-italic font-sans font-medium">{user.profile.fullName}</span>
         </h1>
-        <p className="text-white/60 relative z-10">Member since {user.profile.memberSince} • {user.rewards.level}</p>
+        <p className="text-ink/60 relative z-10">Member since {user.profile.memberSince} • {user.rewards.level}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -42,10 +42,10 @@ export default function Overview() {
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stat.bg} ${stat.color} transition-transform group-hover:scale-110`}>
                       <Icon size={24} />
                     </div>
-                    <FiChevronRight className="text-white/30 group-hover:text-primary transition-colors group-hover:translate-x-1" size={20} />
+                    <FiChevronRight className="text-ink/30 group-hover:text-primary transition-colors group-hover:translate-x-1" size={20} />
                   </div>
-                  <h3 className="text-3xl font-bold text-white mb-1">{stat.value}</h3>
-                  <p className="text-white/60 text-sm font-medium">{stat.label}</p>
+                  <h3 className="text-3xl font-bold text-ink mb-1">{stat.value}</h3>
+                  <p className="text-ink/60 text-sm font-medium">{stat.label}</p>
                 </div>
               </Link>
             </motion.div>
@@ -57,18 +57,18 @@ export default function Overview() {
         {/* Recent Orders Snippet */}
         <div className="bg-surface/50 backdrop-blur-md border border-line/60 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-serif italic text-white">Recent Orders</h2>
+            <h2 className="text-xl font-serif italic text-ink">Recent Orders</h2>
             <Link to="/account/orders" className="text-sm text-primary hover:underline">View All</Link>
           </div>
           <div className="space-y-4">
             {user.orders.slice(0, 2).map(order => (
               <div key={order.id} className="flex items-center justify-between p-4 rounded-xl bg-secondary/30 border border-line/30">
                 <div>
-                  <p className="text-white font-medium mb-1">{order.id}</p>
-                  <p className="text-white/50 text-xs">{order.date}</p>
+                  <p className="text-ink font-medium mb-1">{order.id}</p>
+                  <p className="text-ink/50 text-xs">{order.date}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-white font-medium">${order.total.toFixed(2)}</p>
+                  <p className="text-ink font-medium">${order.total.toFixed(2)}</p>
                   <span className={`text-xs px-2 py-1 rounded-full ${
                     order.status === 'Delivered' ? 'bg-green-500/20 text-green-400' :
                     order.status === 'Processing' ? 'bg-blue-500/20 text-blue-400' :
@@ -85,21 +85,21 @@ export default function Overview() {
         {/* Profile Snippet */}
         <div className="bg-surface/50 backdrop-blur-md border border-line/60 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-serif italic text-white">Profile Details</h2>
+            <h2 className="text-xl font-serif italic text-ink">Profile Details</h2>
             <Link to="/account/profile" className="text-sm text-primary hover:underline">Edit</Link>
           </div>
           <div className="space-y-4 text-sm">
             <div className="flex justify-between border-b border-line/30 pb-3">
-              <span className="text-white/50">Full Name</span>
-              <span className="text-white">{user.profile.fullName}</span>
+              <span className="text-ink/50">Full Name</span>
+              <span className="text-ink">{user.profile.fullName}</span>
             </div>
             <div className="flex justify-between border-b border-line/30 pb-3">
-              <span className="text-white/50">Email</span>
-              <span className="text-white">{user.profile.email}</span>
+              <span className="text-ink/50">Email</span>
+              <span className="text-ink">{user.profile.email}</span>
             </div>
             <div className="flex justify-between pb-1">
-              <span className="text-white/50">Phone</span>
-              <span className="text-white">{user.profile.phone}</span>
+              <span className="text-ink/50">Phone</span>
+              <span className="text-ink">{user.profile.phone}</span>
             </div>
           </div>
         </div>

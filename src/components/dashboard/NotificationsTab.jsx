@@ -19,8 +19,8 @@ export default function NotificationsTab() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-serif italic text-3xl text-white">Notification Preferences</h1>
-        <p className="text-white/60 mt-1">Control how and when you want to be notified.</p>
+        <h1 className="font-serif italic text-3xl text-ink">Notification Preferences</h1>
+        <p className="text-ink/60 mt-1">Control how and when you want to be notified.</p>
       </div>
 
       <div className="bg-surface/50 backdrop-blur-md border border-line/60 rounded-3xl p-6 md:p-8">
@@ -31,12 +31,12 @@ export default function NotificationsTab() {
             return (
               <div key={opt.key} className={`flex items-start justify-between gap-4 ${idx === 0 ? 'pb-6' : idx === notificationOptions.length - 1 ? 'pt-6' : 'py-6'}`}>
                 <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-secondary text-white/70 flex items-center justify-center shrink-0 mt-1">
+                  <div className="w-10 h-10 rounded-full bg-secondary text-ink/70 flex items-center justify-center shrink-0 mt-1">
                     <Icon size={18} />
                   </div>
                   <div>
-                    <h3 className="text-white font-medium mb-1">{opt.label}</h3>
-                    <p className="text-white/50 text-sm max-w-md">{opt.desc}</p>
+                    <h3 className="text-ink font-medium mb-1">{opt.label}</h3>
+                    <p className="text-ink/50 text-sm max-w-md">{opt.desc}</p>
                   </div>
                 </div>
                 
@@ -47,7 +47,7 @@ export default function NotificationsTab() {
                     onChange={() => toggleHandler(opt.key)}
                     className="sr-only peer" 
                   />
-                  <div className="w-11 h-6 bg-secondary peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                  <div className="w-11 h-6 bg-secondary peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                 </label>
               </div>
             );

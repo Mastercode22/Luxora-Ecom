@@ -18,8 +18,8 @@ export default function RewardsTab() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-serif italic text-3xl text-white">Coupons & Rewards</h1>
-        <p className="text-white/60 mt-1">View your loyalty status and available discounts.</p>
+        <h1 className="font-serif italic text-3xl text-ink">Coupons & Rewards</h1>
+        <p className="text-ink/60 mt-1">View your loyalty status and available discounts.</p>
       </div>
 
       {/* Loyalty Status */}
@@ -32,18 +32,18 @@ export default function RewardsTab() {
               <FiAward size={28} />
             </div>
             <div>
-              <p className="text-white/60 text-sm font-medium uppercase tracking-wider mb-1">Current Tier</p>
-              <h2 className="text-2xl font-serif italic text-white">{user.rewards.level}</h2>
+              <p className="text-ink/60 text-sm font-medium uppercase tracking-wider mb-1">Current Tier</p>
+              <h2 className="text-2xl font-serif italic text-ink">{user.rewards.level}</h2>
             </div>
           </div>
           <div className="md:text-right">
-            <p className="text-white/60 text-sm font-medium uppercase tracking-wider mb-1">Available Points</p>
+            <p className="text-ink/60 text-sm font-medium uppercase tracking-wider mb-1">Available Points</p>
             <h2 className="text-3xl font-bold text-amber-400">{user.rewards.points.toLocaleString()}</h2>
           </div>
         </div>
 
         <div className="relative z-10">
-          <div className="flex justify-between text-sm text-white/70 mb-2">
+          <div className="flex justify-between text-sm text-ink/70 mb-2">
             <span>{user.rewards.points} pts</span>
             <span>{user.rewards.nextLevelAt} pts</span>
           </div>
@@ -55,7 +55,7 @@ export default function RewardsTab() {
               className="h-full bg-gradient-to-r from-amber-500 to-amber-300 rounded-full"
             />
           </div>
-          <p className="text-white/50 text-xs mt-3 text-center">
+          <p className="text-ink/50 text-xs mt-3 text-center">
             Earn {user.rewards.nextLevelAt - user.rewards.points} more points to reach the Platinum tier!
           </p>
         </div>
@@ -63,7 +63,7 @@ export default function RewardsTab() {
 
       {/* Coupons */}
       <div>
-        <h2 className="text-xl font-serif italic text-white mb-6">Available Coupons</h2>
+        <h2 className="text-xl font-serif italic text-ink mb-6">Available Coupons</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {user.rewards.coupons.map((coupon, idx) => (
             <motion.div 
@@ -74,24 +74,24 @@ export default function RewardsTab() {
               className={`bg-surface/50 backdrop-blur-md border ${coupon.status === 'Available' ? 'border-primary/50' : 'border-line/60 opacity-60'} rounded-3xl p-6 relative overflow-hidden`}
             >
               <div className="flex items-start justify-between mb-4">
-                <div className={`text-2xl font-bold ${coupon.status === 'Available' ? 'text-primary' : 'text-white/50'}`}>
+                <div className={`text-2xl font-bold ${coupon.status === 'Available' ? 'text-primary' : 'text-ink/50'}`}>
                   {coupon.discount}
                 </div>
-                <div className={`px-3 py-1 rounded-full text-xs font-bold border ${coupon.status === 'Available' ? 'bg-primary/10 text-primary border-primary/20' : 'bg-secondary text-white/50 border-line/30'}`}>
+                <div className={`px-3 py-1 rounded-full text-xs font-bold border ${coupon.status === 'Available' ? 'bg-primary/10 text-primary border-primary/20' : 'bg-secondary text-ink/50 border-line/30'}`}>
                   {coupon.status}
                 </div>
               </div>
               
-              <h3 className="text-white font-medium mb-4">{coupon.description}</h3>
+              <h3 className="text-ink font-medium mb-4">{coupon.description}</h3>
               
               <div className="flex items-center gap-2">
-                <div className="flex-1 bg-secondary/30 border border-line/50 rounded-xl px-4 py-3 text-white/70 font-mono text-sm tracking-widest text-center">
+                <div className="flex-1 bg-secondary/30 border border-line/50 rounded-xl px-4 py-3 text-ink/70 font-mono text-sm tracking-widest text-center">
                   {coupon.id}
                 </div>
                 {coupon.status === 'Available' && (
                   <button 
                     onClick={() => handleCopy(coupon.id)}
-                    className="p-3 bg-secondary/50 hover:bg-secondary text-white rounded-xl transition-colors"
+                    className="p-3 bg-secondary/50 hover:bg-secondary text-ink rounded-xl transition-colors"
                   >
                     {copied === coupon.id ? <FiCheck className="text-green-400" /> : <FiCopy />}
                   </button>
